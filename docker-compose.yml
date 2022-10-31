@@ -1,25 +1,61 @@
 version: '3'
 
 services:
+# Database
+# Server name: 307 Project
+# Host name: db
+# Port: 3306
+# Maintenance database: postgres
+# Username: postgres
+# Password: postgres
   db:
-    image: mysql:5.7
-    ports:
-      - '3307:3307'
+    container_name: postgres_container
+    image: postgres
+    restart: always
     environment:
-      MYSQL_DATABASE: 'mysql-db'
-      MYSQL_USER: 'mysql-user'
-      MYSQL_PASSWORD: 'mysql-password'
-      MYSQL_ROOT_PASSWORD: 'mysql-root-password'
-      MYSQL_DATABASE_HOST: 'db'
-      MYSQL_TCP_PORT: 3307
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "3306:3306"
     volumes:
-      - ./data/mysql/db:/var/lib/mysql
+      - postgres_data:/var/lib/postgresql/data/
+    command: -p 3306
+
+# pgAdmin
+# To login to pgAdmin, use default email and password below
+# Then make new server with database info above
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - "5051:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    depends_on:
+    - db
+
+# Django website
+# Makes migrations to database before running
+# Launches after database is set up on port 8000
   web:
+    container_name: Django_container
     build: .
-    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0000:8000"
     volumes:
-      - .:/app
+      - .:/code
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0000:8000"
     ports:
       - "8000:8000"
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     depends_on:
       - db
+      - pgadmin
+
+# Set up local storage for database
+volumes:
+  postgres_data:
