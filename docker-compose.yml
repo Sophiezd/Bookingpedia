@@ -4,12 +4,16 @@ services:
   db:
     image: mysql:5.7
     ports:
-      - '3306:3306'
+      - '3307:3307'
     environment:
-       MYSQL_DATABASE: 'my-app-db'
-       MYSQL_USER: 'myuser'
-       MYSQL_PASSWORD: 'password'
-       MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_DATABASE: 'mysql-db'
+      MYSQL_USER: 'mysql-user'
+      MYSQL_PASSWORD: 'mysql-password'
+      MYSQL_ROOT_PASSWORD: 'mysql-root-password'
+      MYSQL_DATABASE_HOST: 'db'
+      MYSQL_TCP_PORT: 3307
+    volumes:
+      - ./data/mysql/db:/var/lib/mysql
   web:
     build: .
     command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0000:8000"
