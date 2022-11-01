@@ -71,7 +71,7 @@ def insert_room(request):
             room.save()
             return redirect('/rooms')
         except IntegrityError as e:
-            messages.error(request, ('That hotel alread has a Room ' + str(room.number) + '!'))
+            messages.error(request, ('That hotel already has a Room ' + str(room.number) + '!'))
             hotels = Hotel.objects.all()
             return render(request, 'insert_room.html', {'hotels': hotels})  
         
