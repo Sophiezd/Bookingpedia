@@ -5,7 +5,7 @@
 </head>
 <body>
     <h1>Room List</h1>
-    <a href={% url "insert_room" %}>Insert Room</a>
+    <a href={% url "insert_room" %}><button type = "button">Insert Room</button></a>
     {% if object_list %}
     {% for object in object_list %}
     <h2> {{ object.type}} | {{ object.price }} | {{ object.hotel.pk }}
