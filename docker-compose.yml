@@ -2,7 +2,7 @@ version: '3'
 
 services:
 # Database
-# Server name: 307 Project
+# Server name: 348 Project
 # Host name: db
 # Port: 3306
 # Maintenance database: postgres
