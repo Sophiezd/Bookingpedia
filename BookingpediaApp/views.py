@@ -30,7 +30,7 @@ def insert_transaction(request):
         rooms = Room.objects.all()
         customers = Customer.objects.all()
         items = Item.objects.all()
-        return render(request, 'insert_transaction.html', {'rooms': rooms}, {'customers': customers}, ('items': items))  
+        return render(request, 'insert_transaction.html', {'rooms': rooms, 'customers': customers, 'items': items})  
 
 def insert_reservation(request):
     if request.method == 'POST':
@@ -46,7 +46,7 @@ def insert_reservation(request):
     else:
         rooms = Room.objects.all()
         customers = Customer.objects.all()
-        return render(request, 'insert_reservation.html', {'rooms': rooms}, {'customers': customers})  
+        return render(request, 'insert_reservation.html', {'rooms': rooms, 'customers': customers})  
 
 def insert_room(request):
     if request.method == 'POST':
