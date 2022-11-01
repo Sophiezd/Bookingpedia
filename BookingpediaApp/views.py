@@ -190,3 +190,8 @@ def edit_transaction(request, pk):
             'customer': instance.customer,
         })
     return render(request, 'edit.html', {'form': form.as_p()})
+
+def delete_customer(request, pk):
+    instance = Customer.objects.get(pk=pk)
+    instance.delete()
+    return HttpResponseRedirect("/customers")
