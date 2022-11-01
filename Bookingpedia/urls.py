@@ -15,8 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from BookingpediaApp.views import index, CustomerListView
 
 urlpatterns = [
-    path('polls/', include('BookingpediaApp.urls')),
     path('admin/', admin.site.urls),
+    path('customers/', CustomerListView.as_view(), name="Customers"),
+    path('Hotels/', index, name="Hotels"),
+    path('Rooms/', index, name="Rooms"),
+    path('Reservations/', index, name="Reservations"),
+    path('Items/', index, name="Items"),
+    path('Transactions/', index, name="Transactions"),
 ]
