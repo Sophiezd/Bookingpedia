@@ -5,6 +5,7 @@
 </head>
 <body>
     <h1>Customer List</h1>
+    <a href={% url "insert_customer" %}>Insert Customer</a>
     {% if object_list %}
     {% for object in object_list %}
     <h2> {{ object.username}} | {{ object.bill }}</h2>
@@ -15,6 +16,8 @@
     
     {% endfor %}
     {% else %}
+    <h2>There are no currently no customers!<h2>
     {% endif %}
+    <a href= "{% url 'home' %}"><button type = "button">Home</button></a>
 </body>
 </html>

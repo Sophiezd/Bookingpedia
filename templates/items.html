@@ -5,13 +5,17 @@
 </head>
 <body>
     <h1>Item List</h1>
+    <a href={% url "insert_item" %}>Insert Item</a>
     {% if object_list %}
     {% for object in object_list %}
     <h2> {{ object.name}} | {{ object.price }}
       <a href= "/items/{{object.pk}}/edit"><button type = "button">Edit</button></a>
+      <a href= "/items/{{object.pk}}/delete"><button type = "button">Delete</button></a>
     </h2>
     {% endfor %}
     {% else %}
+    <h2>There are no currently no items!<h2></h2>
     {% endif %}
+    <a href= "{% url 'home' %}"><button type = "button">Home</button></a>
 </body>
 </html>

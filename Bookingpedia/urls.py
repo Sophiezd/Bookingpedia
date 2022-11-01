@@ -17,15 +17,23 @@ from django.contrib import admin
 from django.urls import include, path
 from BookingpediaApp.views import CustomerListView, edit_customer, insert_hotel, HotelListView, \
     edit_hotel, RoomListView, edit_room, ReservationListView, edit_reservation, \
-        ItemListView, edit_item, TransactionListView, edit_transaction, delete_customer
+        ItemListView, edit_item, TransactionListView, edit_transaction, delete_customer, \
+            delete_hotel, delete_reservation, delete_room, delete_item, delete_transaction, main_page , \
+                insert_transaction, insert_reservation, insert_customer, insert_item, insert_room
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', main_page, name="home"),
     path('customers/', CustomerListView.as_view(), name="Customers"),
     path('customers/<int:pk>/edit/', edit_customer, name = 'editCustomers'),
     path('hotels/', HotelListView.as_view(), name="Hotels"),
     path('hotels/<int:pk>/edit/', edit_hotel, name = 'editHotels'),
     path('hotels/insert/',insert_hotel, name='insert_hotel'),
+    path('customers/insert/',insert_customer, name='insert_customer'),
+    path('items/insert/',insert_item, name='insert_item'),
+    path('rooms/insert/',insert_room, name='insert_room'),
+    path('reservations/insert/',insert_reservation, name='insert_reservation'),
+    path('transactions/insert/',insert_transaction, name='insert_transaction'),
     path('rooms/', RoomListView.as_view(), name="Rooms"),
     path('rooms/<int:pk>/edit/', edit_room, name = 'editRooms'),
     path('reservations/', ReservationListView.as_view(), name="Reservations"),
@@ -35,4 +43,9 @@ urlpatterns = [
     path('transactions/', TransactionListView.as_view(), name="Transactions"),
     path('transactions/<int:pk>/edit/', edit_transaction, name = 'editTransactions'),
     path('customers/<int:pk>/delete/', delete_customer, name = 'deleteCustomers'),
+    path('hotels/<int:pk>/delete', delete_hotel, name = 'deleteHotels'),
+    path('rooms/<int:pk>/delete', delete_room, name = 'deleteRooms'),
+    path('reservations/<int:pk>/delete', delete_reservation, name = 'deleteReservations'),
+    path('items/<int:pk>/delete', delete_item, name = 'deleteItems'),
+    path('transactions/<int:pk>/delete', delete_transaction, name = 'deleteTransactions'),
 ]

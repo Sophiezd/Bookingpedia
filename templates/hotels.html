@@ -10,9 +10,12 @@
     {% for object in object_list %}
     <h2> {{ object.name}} | {{ object.address }}
       <a href= "/hotels/{{object.pk}}/edit"><button type = "button">Edit</button></a>
+      <a href= "/hotels/{{object.pk}}/delete"><button type = "button">Delete</button></a>
     </h2>
     {% endfor %}
     {% else %}
+    <h2>There are no currently no hotels!<h2></h2>
     {% endif %}
+    <a href= "{% url 'home' %}"><button type = "button">Home</button></a>
 </body>
 </html>

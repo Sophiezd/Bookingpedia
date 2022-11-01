@@ -5,13 +5,17 @@
 </head>
 <body>
     <h1>Transaction List</h1>
+    <a href={% url "insert_transaction" %}>Insert Transaction</a>
     {% if object_list %}
     {% for object in object_list %}
     <h2> {{ object.timestamp}} | {{ object.count }} | {{ object.item.pk }} | {{ object.customer.pk }} | {{ object.room.pk }}
       <a href= "/transactions/{{object.pk}}/edit"><button type = "button">Edit</button></a>
+      <a href= "/transactions/{{object.pk}}/delete"><button type = "button">Delete</button></a>
     </h2>
     {% endfor %}
     {% else %}
+    <h2>There are no currently no transactions!<h2></h2>
     {% endif %}
+    <a href= "{% url 'home' %}"><button type = "button">Home</button></a>
 </body>
 </html>

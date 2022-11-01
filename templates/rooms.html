@@ -5,13 +5,17 @@
 </head>
 <body>
     <h1>Room List</h1>
+    <a href={% url "insert_room" %}>Insert Room</a>
     {% if object_list %}
     {% for object in object_list %}
     <h2> {{ object.type}} | {{ object.price }} | {{ object.hotel.pk }}
       <a href= "/rooms/{{object.pk}}/edit"><button type = "button">Edit</button></a>
+      <a href= "/rooms/{{object.pk}}/delete"><button type = "button">Delete</button></a>
     </h2>
     {% endfor %}
     {% else %}
+    <h2>There are no currently no rooms!<h2></h2>
     {% endif %}
+    <a href= "{% url 'home' %}"><button type = "button">Home</button></a>
 </body>
 </html>
