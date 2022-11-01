@@ -18,11 +18,19 @@
   </div>
   <div class="form-group">
     <label for="room">Room</label>
-    <input type="text" class="form-control" id="room" name="room" placeholder="Enter room">
+    <select id="ratingRange" class="form-control" id="room" name="room">
+      {% for room in rooms %}
+      <option value="{{ room.pk }}">{{ room.type }}</option>
+      {% endfor %}
+    </select>
   </div>
   <div class="form-group">
     <label for="customer">Customer</label>
-    <input type="text" class="form-control" id="customer" name="customer" placeholder="Enter customer">
+    <select id="ratingRange" class="form-control" id="customer" name="customer">
+      {% for customer in customers %}
+      <option value="{{ customer.pk }}">{{ customer.username }}</option>
+      {% endfor %}
+    </select>
   </div>
  <button type="submit" class="btn btn-primary">Insert Reservation</button>
  </form>
