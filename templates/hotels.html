@@ -2,13 +2,52 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <style type="text/css">
+   button {
+      background-color: grey;
+      border: none;
+      border-radius:5px;
+      color: white;
+      padding: 5px 10px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin: 4px 2px;
+      cursor: pointer;
+      min-height:10px; 
+      min-width: 65px;
+    }
+    button:hover {
+      background-color: rgb(51, 124, 246);
+    }
+    #home_btn {
+      background-color: rgb(51, 124, 246);
+      padding: 10px 25px;
+      min-height:20px; 
+      min-width: 80px;
+    }
+    #insert_btn {
+      padding: 10px 25px;
+      min-height:10px; 
+      min-width: 65px;
+    }
+    body {
+      font-size: 14px;
+    }
+  </style>
 </head>
 <body>
+    <a href= "{% url 'home' %}"><button id = "home_btn" type = "button">Home</button></a>
     <h1>Hotel List</h1>
-    <a href={% url "insert_hotel" %}><button type = "button">Insert Hotel</button></a>
+   
+    <a href={% url "insert_hotel" %}><button id = "insert_btn" type = "button">Insert Hotel</button></a>
     {% if object_list %}
     {% for object in object_list %}
-    <h2> {{ object.name}} | {{ object.address }}
+    <h2> 
+      Hotel name: {{ object.name}} <br>
+      Hotel address: {{ object.address }}  <br>
+    
       <a href= "/hotels/{{object.pk}}/edit"><button type = "button">Edit</button></a>
       <a href= "/hotels/{{object.pk}}/delete"><button type = "button">Delete</button></a>
     </h2>
@@ -16,6 +55,7 @@
     {% else %}
     <h2>There are no currently no hotels!<h2></h2>
     {% endif %}
-    <a href= "{% url 'home' %}"><button type = "button">Home</button></a>
+    <br>
+   
 </body>
 </html>

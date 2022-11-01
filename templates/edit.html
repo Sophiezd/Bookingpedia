@@ -2,9 +2,32 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <style type="text/css">
+    button {
+      background-color: grey;
+      border: none;
+      border-radius:5px;
+      color: white;
+      padding: 5px 10px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin: 4px 2px;
+      cursor: pointer;
+      min-height:10px; 
+      min-width: 65px;
+    }
+     button:hover {
+       background-color: rgb(51, 124, 246);
+     }
+     body {
+      font-size: 14px;
+    }
+   </style>
 </head>
 <body>
-  <h2>Edit</h2>
+  <h1>Edit</h1>
   <form method="post">
     {% csrf_token %}
     {{ form }}
