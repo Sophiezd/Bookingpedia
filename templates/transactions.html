@@ -5,6 +5,7 @@
 </head>
 <body>
     <h1>Transaction List</h1>
+    <a href={% url "insert_transaction" %}>Insert Transaction</a>
     {% if object_list %}
     {% for object in object_list %}
     <h2> {{ object.timestamp}} | {{ object.count }} | {{ object.item.pk }} | {{ object.customer.pk }} | {{ object.room.pk }}</h2>

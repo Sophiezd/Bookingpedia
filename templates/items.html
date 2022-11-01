@@ -5,6 +5,7 @@
 </head>
 <body>
     <h1>Item List</h1>
+    <a href={% url "insert_item" %}>Insert Item</a>
     {% if object_list %}
     {% for object in object_list %}
     <h2> {{ object.name}} | {{ object.price }}</h2>

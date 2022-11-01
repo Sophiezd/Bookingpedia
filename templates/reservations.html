@@ -5,6 +5,7 @@
 </head>
 <body>
     <h1>Reservation List</h1>
+    <a href={% url "insert_reservation" %}>Insert Reservation</a>
     {% if object_list %}
     {% for object in object_list %}
     <h2> {{ object.start_date}} | {{ object.end_date}} | {{ object.room.pk }} | {{ object.customer.pk }}</h2>
