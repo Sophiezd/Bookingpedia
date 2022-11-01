@@ -28,6 +28,7 @@ urlpatterns = [
     path('hotels/', HotelListView.as_view(), name="Hotels"),
     path('hotels/<int:pk>/edit/', edit_hotel, name = 'editHotels'),
     path('hotels/insert/',insert_hotel, name='insert_hotel'),
+    path('customers/insert/',insert_customer, name='insert_customer'),
     path('rooms/', RoomListView.as_view(), name="Rooms"),
     path('rooms/<int:pk>/edit/', edit_room, name = 'editRooms'),
     path('reservations/', ReservationListView.as_view(), name="Reservations"),
