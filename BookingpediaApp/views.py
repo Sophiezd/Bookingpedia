@@ -15,7 +15,7 @@ class HotelListView(ListView):
 
 def insert_transaction(request):
     if request.method == 'POST':
-        transaction = Reservation()
+        transaction = Transaction()
         transaction.timestamp = request.POST.get('timestamp')
         transaction.count = request.POST.get('count')
         item_pk = request.POST.get('item')

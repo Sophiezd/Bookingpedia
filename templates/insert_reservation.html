@@ -20,7 +20,7 @@
     <label for="room">Room</label>
     <select id="ratingRange" class="form-control" id="room" name="room">
       {% for room in rooms %}
-      <option value="{{ room.pk }}">{{ room.type }}</option>
+      <option value="{{ room.pk }}">{{ room }}</option>
       {% endfor %}
     </select>
   </div>
