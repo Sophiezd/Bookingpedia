@@ -4,6 +4,13 @@
   <meta charset="utf-8">
 </head>
 <body>
+  {% if messages %}
+  {% for message in messages %}
+  <h3>
+    <div class="alert {% if message.tags %}alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger{% else %}{{ message.tags }}{% endif %}{% endif %}" role="alert">{{ message }}</div>
+  </h3>
+  {% endfor %}
+  {% endif %}
   <h2>Edit</h2>
   <form method="post">
     {% csrf_token %}

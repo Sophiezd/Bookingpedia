@@ -36,11 +36,12 @@
     <label for="room">Room</label>
     <select id="ratingRange" class="form-control" id="room" name="room">
       {% for room in rooms %}
-      <option value="{{ room.pk }}">{{ room }}</option>
+      <option value="{{ room.hotel.pk }}|{{ room.number }}">{{ room }}</option>
       {% endfor %}
     </select>
   </div>
  <button type="submit" class="btn btn-primary">Insert Transaction</button>
+ <a href= "{% url 'Transactions' %}"><button type = "button" class="btn btn-primary">Back</button></a>
  </form>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

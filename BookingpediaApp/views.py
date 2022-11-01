@@ -1,8 +1,11 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect
+from django.db import IntegrityError
 from django.views.generic import ListView
 from .models import Customer, Room, Hotel, Reservation, Item, Transaction
 from django.http import HttpResponseRedirect, Http404
 from .forms import CustomerEditForm, HotelEditForm, RoomEditForm, ReservationEditForm, ItemEditForm, TransactionEditForm
+from django.db.models import Q
 
 
 class CustomerListView(ListView):
@@ -20,10 +23,14 @@ def insert_transaction(request):
         transaction.count = request.POST.get('count')
         item_pk = request.POST.get('item')
         customer_pk = request.POST.get('customer')
-        room_pk = request.POST.get('room')
+        [hotel_pk, room] = request.POST.get('room').split('|')
         transaction.item = Item.objects.get(pk=item_pk)
         transaction.customer = Customer.objects.get(pk=customer_pk)
-        transaction.room = Room.objects.get(pk=room_pk)
+        match_hotel = Hotel.objects.get(pk=hotel_pk)
+        transaction.room = Room.objects.get(
+            Q(hotel=match_hotel),
+            Q(number=room)
+        )
         transaction.save()
         return redirect('/transactions')
     else:
@@ -34,13 +41,17 @@ def insert_transaction(request):
 
 def insert_reservation(request):
     if request.method == 'POST':
+        [hotel_pk, room] = request.POST.get('room').split('|')
         reservation = Reservation()
         reservation.start_date = request.POST.get('start_date')
-        reservation.end_date = request.POST.get('end_date')
-        room_pk = request.POST.get('room')
+        reservation.end_date = request.POST.get('end_date')        
         customer_pk = request.POST.get('customer')
         reservation.customer = Customer.objects.get(pk=customer_pk)
-        reservation.room = Room.objects.get(pk=room_pk)
+        match_hotel = Hotel.objects.get(pk=hotel_pk)
+        reservation.room = Room.objects.get(
+            Q(hotel=match_hotel),
+            Q(number=room)
+        )
         reservation.save()
         return redirect('/reservations')
     else:
@@ -51,12 +62,19 @@ def insert_reservation(request):
 def insert_room(request):
     if request.method == 'POST':
         room = Room()
+        room.number = request.POST.get('roomNo')
         room.type = request.POST.get('type')
         room.price = request.POST.get('price')
         hotel_pk = request.POST.get('hotel')
         room.hotel = Hotel.objects.get(pk=hotel_pk)
-        room.save()
-        return redirect('/rooms')
+        try:
+            room.save()
+            return redirect('/rooms')
+        except IntegrityError as e:
+            messages.error(request, ('That hotel alread has a Room ' + str(room.number) + '!'))
+            hotels = Hotel.objects.all()
+            return render(request, 'insert_room.html', {'hotels': hotels})  
+        
     else:
         hotels = Hotel.objects.all()
         return render(request, 'insert_room.html', {'hotels': hotels})  
@@ -206,8 +224,12 @@ def edit_reservation(request, pk):
         })
     return render(request, 'edit.html', {'form': form.as_p()})
 
-def edit_room(request, pk):
-    instance = Room.objects.get(pk=pk)
+def edit_room(request, pk, roomNo):
+    match_hotel = Hotel.objects.get(pk=pk)
+    instance = Room.objects.get(
+        Q(hotel=match_hotel),
+        Q(number=roomNo)
+    )
     redirectUrl = "/rooms"
     if request.method == 'POST':
         form = RoomEditForm(request.POST)
@@ -215,16 +237,28 @@ def edit_room(request, pk):
         if pk == '':
             raise Http404
         if form.is_valid():
+            instance.number=form.cleaned_data['number']
             instance.type=form.cleaned_data['type']
             instance.price=form.cleaned_data['price']
             instance.hotel=form.cleaned_data['hotel']
-            instance.save(update_fields=['type', 'price', 'hotel'])
-            return HttpResponseRedirect(redirectUrl)
+            try:
+                instance.save(update_fields=['number', 'type', 'price', 'hotel'])
+                return HttpResponseRedirect(redirectUrl)
+            except IntegrityError as e:
+                form = RoomEditForm({
+                    'number': instance.number,
+                    'type': instance.type,
+                    'price': instance.price,
+                    'hotel': instance.hotel,
+                })
+                messages.error(request, ('That hotel alread has a Room ' + str(instance.number) + '!'))
+                return render(request, 'edit.html', {'form': form.as_p()})
     else:
         if pk == '':
             raise Http404
         request.session['pk'] = pk
         form = RoomEditForm({
+            'number': instance.number,
             'type': instance.type,
             'price': instance.price,
             'hotel': instance.hotel,
@@ -278,8 +312,12 @@ def delete_reservation(request, pk):
     reservation_del.delete()
     return HttpResponseRedirect("/reservations")
 
-def delete_room(request, pk):
-    room_del = Room.objects.get(pk=pk)
+def delete_room(request, pk, roomNo):
+    match_hotel = Hotel.objects.get(pk=pk)
+    room_del = Room.objects.get(
+        Q(hotel=match_hotel),
+        Q(number=roomNo)
+    )
     room_del.delete()
     return HttpResponseRedirect("/rooms")
 

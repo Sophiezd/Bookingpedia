@@ -12,6 +12,7 @@ class HotelEditForm(forms.Form):
     address = forms.CharField(label='Address', max_length=100)
 
 class RoomEditForm(forms.Form):
+    number = forms.IntegerField(label='Room Number')
     type = forms.CharField(label='Room Type', max_length=100)
     price = forms.FloatField(label='Room Price')
     hotel = forms.ModelChoiceField(queryset = Hotel.objects.all())

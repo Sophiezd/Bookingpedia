@@ -17,12 +17,20 @@ class Hotel(models.Model):
         return self.name
 
 class Room(models.Model):
+    number = models.IntegerField(default=0)
     type = models.CharField(max_length=100)
     price = models.FloatField(default=0)
     hotel = models.ForeignKey(Hotel, related_name='Rooms', on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.hotel) + ", Room: " + str(self.pk)
+        return str(self.hotel) + ", Room: " + str(self.number)
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['number', 'hotel'], name='unique_number_hotel_combination'
+            )
+        ]
 
 class Reservation(models.Model):
     start_date = models.DateField(auto_now_add=True)

@@ -2,20 +2,89 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <title>Room Table</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-    <h1>Room List</h1>
-    <a href={% url "insert_room" %}><button type = "button">Insert Room</button></a>
-    {% if object_list %}
-    {% for object in object_list %}
-    <h2> {{ object.type}} | {{ object.price }} | {{ object.hotel.pk }}
-      <a href= "/rooms/{{object.pk}}/edit"><button type = "button">Edit</button></a>
-      <a href= "/rooms/{{object.pk}}/delete"><button type = "button">Delete</button></a>
-    </h2>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+        <div class="container-fluid">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-mdb-toggle="collapse"
+          data-mdb-target="#navbarExample01"
+          aria-controls="navbarExample01"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarExample01">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/customers">Customers</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/hotels">Hotels</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/rooms">Rooms</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/reservations">Reservations</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/items">Items</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/transactions">Transactions</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <h1>Room Table</h1>
+  {% if object_list %}
+  <table style="width:100%" class="table table-hover">
+    <thead>
+      <tr>
+        <th>Number</th>
+        <th>Type</th>
+        <th>Price ($)</th>
+        <th>Hotel Id</th>
+        <th>Edit Entry</th>
+        <th>Delete Entry</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for object in object_list %}
+      <tr>
+        <td>{{ object.number}}</td>
+        <td>{{ object.type}}</td>
+        <td>{{ object.price }}</td>
+        <td>{{ object.hotel.pk }}</td>
+        <td>
+          <a href= "/rooms/{{object.hotel.pk}}/{{object.number}}/edit"><button type = "button" class="btn btn-secondary">Edit</button></a>
+        </td>
+        <td>
+          <a href= "/rooms/{{object.hotel.pk}}/{{object.number}}/delete"><button type = "button" class="btn btn-danger">Delete</button></a>
+        </td>
+      </tr>
     {% endfor %}
-    {% else %}
-    <h2>There are no currently no rooms!<h2></h2>
-    {% endif %}
-    <a href= "{% url 'home' %}"><button type = "button">Home</button></a>
+    </tbody>
+  </table>
+  {% else %}
+  {% endif %}
+  <div class="text-center">
+    <a href={% url "insert_room" %}><button type = "button" class="btn btn-success">Insert Room</button></a>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384 JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
