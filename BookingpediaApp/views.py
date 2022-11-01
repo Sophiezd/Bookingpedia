@@ -43,11 +43,13 @@ def insert_room(request):
         room = Room()
         room.type = request.POST.get('type')
         room.price = request.POST.get('price')
-        room.hotel = request.POST.get('hotel')
+        hotel_pk = request.POST.get('hotel')
+        room.hotel = Hotel.objects.get(pk=hotel_pk)
         room.save()
         return redirect('/rooms')
     else:
-        return render(request, 'insert_room.html')  
+        hotels = Hotel.objects.all()
+        return render(request, 'insert_room.html', {'hotels': hotels})  
 
 def insert_item(request):
     if request.method == 'POST':
