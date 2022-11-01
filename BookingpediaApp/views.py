@@ -18,25 +18,35 @@ def insert_transaction(request):
         transaction = Reservation()
         transaction.timestamp = request.POST.get('timestamp')
         transaction.count = request.POST.get('count')
-        transaction.item = request.POST.get('item')
-        transaction.customer = request.POST.get('customer')
-        transaction.room = request.POST.get('room')
+        item_pk = request.POST.get('item')
+        customer_pk = request.POST.get('customer')
+        room_pk = request.POST.get('room')
+        transaction.item = Item.objects.get(pk=item_pk)
+        transaction.customer = Customer.objects.get(pk=customer_pk)
+        transaction.room = Room.objects.get(pk=room_pk)
         transaction.save()
         return redirect('/transactions')
     else:
-        return render(request, 'insert_transaction.html')  
+        rooms = Room.objects.all()
+        customers = Customer.objects.all()
+        items = Item.objects.all()
+        return render(request, 'insert_transaction.html', {'rooms': rooms}, {'customers': customers}, ('items': items))  
 
 def insert_reservation(request):
     if request.method == 'POST':
         reservation = Reservation()
         reservation.start_date = request.POST.get('start_date')
         reservation.end_date = request.POST.get('end_date')
-        reservation.room = request.POST.get('room')
-        reservation.customer = request.POST.get('customer')
+        room_pk = request.POST.get('room')
+        customer_pk = request.POST.get('customer')
+        reservation.customer = Customer.objects.get(pk=customer_pk)
+        reservation.room = Room.objects.get(pk=room_pk)
         reservation.save()
         return redirect('/reservations')
     else:
-        return render(request, 'insert_reservation.html')  
+        rooms = Room.objects.all()
+        customers = Customer.objects.all()
+        return render(request, 'insert_reservation.html', {'rooms': rooms}, {'customers': customers})  
 
 def insert_room(request):
     if request.method == 'POST':
