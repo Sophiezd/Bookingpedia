@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import include, path
 from BookingpediaApp.views import CustomerListView, edit_customer, insert_hotel, HotelListView, \
     edit_hotel, RoomListView, edit_room, ReservationListView, edit_reservation, \
-        ItemListView, edit_item, TransactionListView, edit_transaction
+        ItemListView, edit_item, TransactionListView, edit_transaction, delete_customer
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,4 +34,5 @@ urlpatterns = [
     path('items/<int:pk>/edit/', edit_item, name = 'editItems'),
     path('transactions/', TransactionListView.as_view(), name="Transactions"),
     path('transactions/<int:pk>/edit/', edit_transaction, name = 'editTransactions'),
+    path('customers/<int:pk>/delete/', delete_customer, name = 'deleteCustomers'),
 ]
