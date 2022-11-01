@@ -17,10 +17,11 @@ from django.contrib import admin
 from django.urls import include, path
 from BookingpediaApp.views import CustomerListView, edit_customer, insert_hotel, HotelListView, \
     edit_hotel, RoomListView, edit_room, ReservationListView, edit_reservation, \
-        ItemListView, edit_item, TransactionListView, edit_transaction, delete_customer
+        ItemListView, edit_item, TransactionListView, edit_transaction, delete_customer, main_page
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', main_page, name="home"),
     path('customers/', CustomerListView.as_view(), name="Customers"),
     path('customers/<int:pk>/edit/', edit_customer, name = 'editCustomers'),
     path('hotels/', HotelListView.as_view(), name="Hotels"),

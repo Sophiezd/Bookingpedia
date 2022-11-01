@@ -195,3 +195,6 @@ def delete_customer(request, pk):
     instance = Customer.objects.get(pk=pk)
     instance.delete()
     return HttpResponseRedirect("/customers")
+
+def main_page(request):
+    return render(request, 'main.html')
