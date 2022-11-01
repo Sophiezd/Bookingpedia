@@ -7,7 +7,10 @@
     <h1>Customer List</h1>
     {% if object_list %}
     {% for object in object_list %}
-    <h2> {{ object.username}} | {{ object.password }} | {{ object.bill }} </h2>
+    <h2> {{ object.username}} | {{ object.password }} | {{ object.bill }}
+        <a href= "/customers/{{object.pk}}/edit"><button type = "button">Edit Residence</button></a>
+    </h2>
+    
     {% endfor %}
     {% else %}
     {% endif %}
