@@ -15,13 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from BookingpediaApp.views import CustomerListView, edit_customer, HotelListView, RoomListView, ReservationListView, ItemListView, TransactionListView
+from BookingpediaApp.views import CustomerListView, HotelListView, RoomListView, ReservationListView, ItemListView, TransactionListView, insert_hotel
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('customers/', CustomerListView.as_view(), name="Customers"),
-    path('customers/<int:pk>/edit/', edit_customer, name = 'editCustomers'),
     path('hotels/', HotelListView.as_view(), name="Hotels"),
+    path('insert_hotel/',insert_hotel, name='insert_hotel'),
     path('rooms/', RoomListView.as_view(), name="Rooms"),
     path('reservations/', ReservationListView.as_view(), name="Reservations"),
     path('items/', ItemListView.as_view(), name="Items"),

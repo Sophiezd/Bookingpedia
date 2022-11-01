@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView
 from .models import Customer, Room, Hotel, Reservation, Item, Transaction
 from django.http import HttpResponseRedirect, Http404
@@ -12,6 +12,16 @@ class CustomerListView(ListView):
 class HotelListView(ListView):
     model = Hotel
     template_name = 'hotels.html'
+
+def insert_hotel(request):
+    if request.method == 'POST':
+        hotel = Hotel()
+        hotel.name = request.POST.get('name')
+        hotel.address = request.POST.get('address')
+        hotel.save()
+        return redirect('/hotels')
+    else:
+        return render(request, 'insert_hotel.html')   
 
 class RoomListView(ListView):
     model = Room

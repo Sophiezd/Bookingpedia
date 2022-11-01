@@ -5,6 +5,7 @@
 </head>
 <body>
     <h1>Hotel List</h1>
+    <a href= "/insert_hotel">Insert Hotel</a>
     {% if object_list %}
     {% for object in object_list %}
     <h2> {{ object.name}} | {{ object.address }}</h2>
