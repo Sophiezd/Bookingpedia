@@ -7,7 +7,9 @@
     <h1>Transaction List</h1>
     {% if object_list %}
     {% for object in object_list %}
-    <h2> {{ object.timestamp}} | {{ object.count }} | {{ object.item.pk }} | {{ object.customer.pk }} | {{ object.room.pk }}</h2>
+    <h2> {{ object.timestamp}} | {{ object.count }} | {{ object.item.pk }} | {{ object.customer.pk }} | {{ object.room.pk }}
+      <a href= "/transactions/{{object.pk}}/edit"><button type = "button">Edit</button></a>
+    </h2>
     {% endfor %}
     {% else %}
     {% endif %}

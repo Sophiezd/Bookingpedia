@@ -7,7 +7,9 @@
     <h1>Hotel List</h1>
     {% if object_list %}
     {% for object in object_list %}
-    <h2> {{ object.name}} | {{ object.address }}</h2>
+    <h2> {{ object.name}} | {{ object.address }}
+      <a href= "/hotels/{{object.pk}}/edit"><button type = "button">Edit</button></a>
+    </h2>
     {% endfor %}
     {% else %}
     {% endif %}

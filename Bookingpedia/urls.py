@@ -15,15 +15,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from BookingpediaApp.views import CustomerListView, edit_customer, HotelListView, RoomListView, ReservationListView, ItemListView, TransactionListView
+from BookingpediaApp.views import CustomerListView, edit_customer, HotelListView, \
+    edit_hotel, RoomListView, edit_room, ReservationListView, edit_reservation, \
+        ItemListView, edit_item, TransactionListView, edit_transaction
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('customers/', CustomerListView.as_view(), name="Customers"),
     path('customers/<int:pk>/edit/', edit_customer, name = 'editCustomers'),
     path('hotels/', HotelListView.as_view(), name="Hotels"),
+    path('hotels/<int:pk>/edit/', edit_hotel, name = 'editHotels'),
     path('rooms/', RoomListView.as_view(), name="Rooms"),
+    path('rooms/<int:pk>/edit/', edit_room, name = 'editRooms'),
     path('reservations/', ReservationListView.as_view(), name="Reservations"),
+    path('reservations/<int:pk>/edit/', edit_reservation, name = 'editReservations'),
     path('items/', ItemListView.as_view(), name="Items"),
+    path('items/<int:pk>/edit/', edit_item, name = 'editItems'),
     path('transactions/', TransactionListView.as_view(), name="Transactions"),
+    path('transactions/<int:pk>/edit/', edit_transaction, name = 'editTransactions'),
 ]
