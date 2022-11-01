@@ -249,6 +249,31 @@ def edit_transaction(request, pk):
     return render(request, 'edit.html', {'form': form.as_p()})
 
 def delete_customer(request, pk):
-    instance = Customer.objects.get(pk=pk)
-    instance.delete()
+    customer_del = Customer.objects.get(pk=pk)
+    customer_del.delete()
     return HttpResponseRedirect("/customers")
+
+def delete_hotel(request, pk):
+    hotel_del = Hotel.objects.get(pk=pk)
+    hotel_del.delete()
+    return HttpResponseRedirect("/hotels")
+
+def delete_reservation(request, pk):
+    reservation_del = Reservation.objects.get(pk=pk)
+    reservation_del.delete()
+    return HttpResponseRedirect("/reservations")
+
+def delete_room(request, pk):
+    room_del = Room.objects.get(pk=pk)
+    room_del.delete()
+    return HttpResponseRedirect("/rooms")
+
+def delete_transaction(request, pk):
+    transaction_del = Transaction.objects.get(pk=pk)
+    transaction_del.delete()
+    return HttpResponseRedirect("/transactions")
+
+def delete_item(request, pk):
+    item_del = Item.objects.get(pk=pk)
+    item_del.delete()
+    return HttpResponseRedirect("/items")
