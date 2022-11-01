@@ -9,6 +9,7 @@
     {% for object in object_list %}
     <h2> {{ object.start_date}} | {{ object.end_date}} | {{ object.room.pk }} | {{ object.customer.pk }}
       <a href= "/reservations/{{object.pk}}/edit"><button type = "button">Edit</button></a>
+      <a href= "/reservations/{{object.pk}}/delete"><button type = "button">Delete</button></a>
     </h2>
     {% endfor %}
     {% else %}
