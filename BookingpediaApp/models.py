@@ -16,7 +16,8 @@ class Room(models.Model):
     hotel = models.ForeignKey(Hotel, related_name='Rooms', on_delete=models.CASCADE)
 
 class Reservation(models.Model):
-    date = models.DateTimeField(auto_now_add=True)
+    start_date = models.DateTimeField(auto_now_add=True)
+    end_date = models.DateTimeField(auto_now_add=True)
     room = models.ForeignKey(Room, related_name='Reservations', on_delete=models.CASCADE)
     customer = models.ForeignKey(Customer, related_name='Reservations', on_delete=models.CASCADE)
 
@@ -27,6 +28,6 @@ class Item(models.Model):
 class Transaction(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     count = models.FloatField(default=0)
-    Item = models.ForeignKey(Item, related_name='Transactions', on_delete=models.CASCADE)
-    Customer = models.ForeignKey(Customer, related_name='Transactions', on_delete=models.CASCADE)
-    Room = models.ForeignKey(Room, related_name='Transactions', on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, related_name='Transactions', on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, related_name='Transactions', on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, related_name='Transactions', on_delete=models.CASCADE)
