@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect, Http404
 from .forms import CustomerEditForm, HotelEditForm, RoomEditForm, ReservationEditForm, ItemEditForm, TransactionEditForm
 from django.db.models import Q
 
+from .sql_run import *
 
 class CustomerListView(ListView):
     model = Customer
@@ -130,7 +131,8 @@ class TransactionListView(ListView):
 
 def reserved_hotels(request):
     template_name = 'reserved_hotels.html'
-    return render(request, template_name, ['d1', 'd2'])
+    context = {'reserved_hotels': get_reserved_rooms()}     
+    return render(request, template_name, context)
 
 def edit_customer(request, pk):
     instance = Customer.objects.get(pk=pk)

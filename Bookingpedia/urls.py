@@ -48,5 +48,5 @@ urlpatterns = [
     path('reservations/<int:pk>/delete', delete_reservation, name = 'deleteReservations'),
     path('items/<int:pk>/delete', delete_item, name = 'deleteItems'),
     path('transactions/<int:pk>/delete', delete_transaction, name = 'deleteTransactions'),
-    path('reserved_hotels/', reserved_hotels, name='reservedHotels')
+    path('reserved_hotels/', reserved_hotels, name='reserved_hotels')
 ]
