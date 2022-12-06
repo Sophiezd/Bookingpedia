@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from BookingpediaApp.views import CustomerListView, edit_customer, insert_hotel, HotelListView, \
+from BookingpediaApp.views import CustomerListView, edit_customer, insert_hotel, HotelListView, reserved_hotels, \
     edit_hotel, RoomListView, edit_room, ReservationListView, edit_reservation, \
         ItemListView, edit_item, TransactionListView, edit_transaction, delete_customer, \
             delete_hotel, delete_reservation, delete_room, delete_item, delete_transaction, main_page , \
@@ -48,4 +48,5 @@ urlpatterns = [
     path('reservations/<int:pk>/delete', delete_reservation, name = 'deleteReservations'),
     path('items/<int:pk>/delete', delete_item, name = 'deleteItems'),
     path('transactions/<int:pk>/delete', delete_transaction, name = 'deleteTransactions'),
+    path('reserved_hotels/', reserved_hotels, name='reservedHotels')
 ]

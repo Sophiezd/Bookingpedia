@@ -16,6 +16,8 @@ class HotelListView(ListView):
     model = Hotel
     template_name = 'hotels.html'
 
+
+
 def insert_transaction(request):
     if request.method == 'POST':
         transaction = Transaction()
@@ -125,6 +127,10 @@ class ItemListView(ListView):
 class TransactionListView(ListView):
     model = Transaction
     template_name = 'transactions.html'
+
+def reserved_hotels(request):
+    template_name = 'reserved_hotels.html'
+    return render(request, template_name, ['d1', 'd2'])
 
 def edit_customer(request, pk):
     instance = Customer.objects.get(pk=pk)
