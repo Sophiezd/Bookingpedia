@@ -36,51 +36,26 @@
     </nav>
   </header>
   <h1>Hotel Table</h1>
-  {% if object_list %}
+  {% csrf_token %}
+  {% if unreserved_hotels %}
   <table style="width:100%" class="table table-hover">
     <thead>
       <tr>
         <th>Name</th>
         <th>Address</th>
-        <th>Edit Entry</th>
-        <th>Delete Entry</th>
       </tr>
     </thead>
     <tbody>
-      {% for object in object_list %}
+      {% for object in unreserved_hotels %}
       <tr>
         <td>{{ object.name}}</td>
         <td>{{ object.address }}</td>
-        <td>
-          <a href= "/hotels/{{object.pk}}/edit"><button type = "button" class="btn btn-secondary">Edit</button></a>
-        </td>
-        <td>
-          <button type = "button" class="btn btn-danger" onclick=likeToDelete({{object.pk}})>Delete</button>
-        </td>
       </tr>
     {% endfor %}
     </tbody>
   </table>
   {% else %}
   {% endif %}
-  <div class="text-center">
-    <a href={% url "insert_hotel" %}><button type = "button" class="btn btn-success">Insert Hotel</button></a>
-  </div>
-  <div class="text-center" style="position:relative; top:20px">
-    <a href={% url "reserved_hotels" %}><button type = "button" class="btn btn-success">Reserved Hotel(s) List</button></a>
-  </div>
-  <div class="text-center" style="position:relative; top:40px">
-    <a href={% url "unreserved_hotels" %}><button type = "button" class="btn btn-success">Unreserved Hotel(s) List</button></a>
-  </div>
-  <script>
-    function likeToDelete(pk)
-    {
-      let text = "Are you sure it is ok to delete this entry?";
-      if (confirm(text) == true) {
-        window.location.href = "/hotels/" + pk + "/delete";
-      }
-    }
-  </script>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384 JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

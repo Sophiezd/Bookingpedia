@@ -27,3 +27,14 @@ def get_reserved_rooms():
         
         result = dictfetchall(cursor)
     return result
+
+def get_unreserved_rooms():
+    result = []
+    with connection.cursor() as cursor:
+        cursor.execute('''
+            SELECT * FROM "BookingpediaApp_hotel" JOIN 
+                (SELECT id as room_id, number, hotel_id FROM "BookingpediaApp_room" WHERE id NOT IN (SELECT room_id FROM "BookingpediaApp_reservation")) Reserved_room 
+            ON id = hotel_id''')
+        
+        result = dictfetchall(cursor)
+    return result

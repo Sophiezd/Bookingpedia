@@ -19,7 +19,7 @@ from BookingpediaApp.views import CustomerListView, edit_customer, insert_hotel,
     edit_hotel, RoomListView, edit_room, ReservationListView, edit_reservation, \
         ItemListView, edit_item, TransactionListView, edit_transaction, delete_customer, \
             delete_hotel, delete_reservation, delete_room, delete_item, delete_transaction, main_page , \
-                insert_transaction, insert_reservation, insert_customer, insert_item, insert_room
+                insert_transaction, insert_reservation, insert_customer, insert_item, insert_room, unreserved_hotels
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -48,5 +48,6 @@ urlpatterns = [
     path('reservations/<int:pk>/delete', delete_reservation, name = 'deleteReservations'),
     path('items/<int:pk>/delete', delete_item, name = 'deleteItems'),
     path('transactions/<int:pk>/delete', delete_transaction, name = 'deleteTransactions'),
-    path('reserved_hotels/', reserved_hotels, name='reserved_hotels')
+    path('reserved_hotels/', reserved_hotels, name='reserved_hotels'),
+    path('unreserved_hotels/', unreserved_hotels, name='unreserved_hotels')
 ]

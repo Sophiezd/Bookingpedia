@@ -134,6 +134,11 @@ def reserved_hotels(request):
     context = {'reserved_hotels': get_reserved_rooms()}     
     return render(request, template_name, context)
 
+def unreserved_hotels(request):
+    template_name = 'unreserved_hotels.html'
+    context = {'unreserved_hotels': get_unreserved_rooms()}     
+    return render(request, template_name, context)
+
 def edit_customer(request, pk):
     instance = Customer.objects.get(pk=pk)
     redirectUrl = "/customers"
