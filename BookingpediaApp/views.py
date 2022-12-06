@@ -330,3 +330,9 @@ def delete_item(request, pk):
     item_del = Item.objects.get(pk=pk)
     item_del.delete()
     return HttpResponseRedirect("/items")
+
+def customer_query(request):
+    if request.method == 'POST':
+        return redirect('/customers')
+    else:
+        return render(request, 'customer_query.html')
