@@ -1,0 +1,48 @@
+<html>
+<head>
+<title>Room Query</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<div class="container" style="margin-top: 100px">
+<div class="container" style="margin-right: 200px">
+{% if messages %}
+{% for message in messages %}
+<h3>
+  <div class="alert {% if message.tags %}alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger{% else %}{{ message.tags }}{% endif %}{% endif %}" role="alert">{{ message }}</div>
+</h3>
+{% endfor %}
+{% endif %}
+<h2>Insert Room</h2>
+<form method="POST">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="Room #">Room #</label>
+    <input type="number" class="form-control" id="roomNo" name="roomNo" placeholder="Enter Room #">
+  </div>
+  <div class="form-group">
+    <label for="type">Room Type</label>
+    <input type="text" class="form-control" id="type" name="type" placeholder="Enter room type">
+  </div>
+  <div class="form-group">
+    <label for="price">Room Price</label>
+    <input type="number" class="form-control" id="price" name="price" placeholder="Enter room price">
+  </div>
+  <div class="form-group">
+    <label for="hotel">Room Hotel</label>
+    <select id="ratingRange" class="form-control" id="hotel" name="hotel">
+      {% for hotel in hotels %}
+      <option value="{{ hotel.pk }}">{{ hotel.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+ <button type="submit" class="btn btn-primary">Let's Find Out!</button>
+ <a href= "{% url 'Rooms' %}"><button type = "button" class="btn btn-primary">Back</button></a>
+ </form>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384 JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

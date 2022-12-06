@@ -336,3 +336,33 @@ def customer_query(request):
         return redirect('/customers')
     else:
         return render(request, 'customer_query.html')
+
+def item_query(request):
+    if request.method == 'POST':
+        return redirect('/items')
+    else:
+        return render(request, 'item_query.html')
+
+def room_query(request):
+    if request.method == 'POST':
+        return redirect('/rooms')
+    else:
+        return render(request, 'room_query.html')
+
+def transaction_query(request):
+    if request.method == 'POST':
+        return redirect('/transactions')
+    else:
+        return render(request, 'transaction_query.html')
+
+def hotel_query(request):
+    if request.method == 'POST':
+        return redirect('/hotels')
+    else:
+        return render(request, 'hotel_query.html')
+
+def reservation_query(request):
+    if request.method == 'POST':
+        return redirect('/reservations')
+    else:
+        return render(request, 'reservation_query.html')
