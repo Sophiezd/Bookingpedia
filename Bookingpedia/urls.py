@@ -54,7 +54,7 @@ urlpatterns = [
     path('items/<int:pk>/delete', delete_item, name = 'deleteItems'),
     path('transactions/<int:pk>/delete', delete_transaction, name = 'deleteTransactions'),
     path('reserved_hotels/', reserved_hotels, name='reserved_hotels'),
-    path('unreserved_hotels/', unreserved_hotels, name='unreserved_hotels')
+    path('unreserved_hotels/', unreserved_hotels, name='unreserved_hotels'),
     path('pay_bill', pay_bill, name='pay_bill'),
     path('cust_hot_search', login_required(HotelSearchListView.as_view(), login_url='login'), name='customer_hotel_search'),
 ]
