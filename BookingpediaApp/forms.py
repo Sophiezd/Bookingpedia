@@ -4,7 +4,7 @@ from .models import Customer, Room, Hotel, Item
 
 class CustomerEditForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), label='Username', max_length=100)
-    password = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), label='Password', max_length=100)
+    password = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), label='Password (Blank keeps old password)', max_length=100, required=False)
     bill = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control'}), label='Bill')
 
 class HotelEditForm(forms.Form):
@@ -33,3 +33,6 @@ class TransactionEditForm(forms.Form):
     item = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset = Item.objects.all())
     room = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset = Room.objects.all())
     customer = forms.ModelChoiceField(widget=forms.Select(attrs={'class': 'form-control'}), queryset = Customer.objects.all())
+
+class PayBillForm(forms.Form):
+    payment = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control'}), label='Bill')

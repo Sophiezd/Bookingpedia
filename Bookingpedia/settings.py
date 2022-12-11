@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'BookingpediaApp',
+    'userInfo',
 ]
 
 MIDDLEWARE = [
@@ -105,7 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Change the default authentication model to our own User
-#AUTH_USER_MODEL = 'BookingpediaApp.Customer'
+AUTH_USER_MODEL = 'BookingpediaApp.Customer'
 
 
 # Internationalization
