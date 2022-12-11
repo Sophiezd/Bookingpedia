@@ -1,13 +1,12 @@
 from django.db import models
+from django.contrib.postgres.indexes import HashIndex, BTreeIndex
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
-class Customer(models.Model):
-    username = models.CharField(max_length=100)
-    password = models.CharField(max_length=100)
+class Customer(AbstractUser):
     bill = models.FloatField(default=0)
 
-    def __str__(self):
-        return self.username
+        
 
 class Hotel(models.Model):
     name = models.CharField(max_length=100)
@@ -45,6 +44,13 @@ class Item(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        indexes = [
+            BTreeIndex(
+                fields=['price',]
+            )
+        ]
 
 class Transaction(models.Model):
     timestamp = models.DateTimeField()

@@ -4,9 +4,10 @@ from django.db import IntegrityError
 from django.views.generic import ListView
 from .models import Customer, Room, Hotel, Reservation, Item, Transaction
 from django.http import HttpResponseRedirect, Http404
-from .forms import CustomerEditForm, HotelEditForm, RoomEditForm, ReservationEditForm, ItemEditForm, TransactionEditForm
+from .forms import CustomerEditForm, HotelEditForm, RoomEditForm, ReservationEditForm, ItemEditForm, TransactionEditForm, PayBillForm
 from django.db.models import Q
-
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
 
 class CustomerListView(ListView):
     model = Customer
@@ -16,8 +17,7 @@ class HotelListView(ListView):
     model = Hotel
     template_name = 'hotels.html'
 
-
-
+@staff_member_required(login_url='login')
 def insert_transaction(request):
     if request.method == 'POST':
         transaction = Transaction()
@@ -41,6 +41,7 @@ def insert_transaction(request):
         items = Item.objects.all()
         return render(request, 'insert_transaction.html', {'rooms': rooms, 'customers': customers, 'items': items})  
 
+@staff_member_required(login_url='login')
 def insert_reservation(request):
     if request.method == 'POST':
         [hotel_pk, room] = request.POST.get('room').split('|')
@@ -61,6 +62,7 @@ def insert_reservation(request):
         customers = Customer.objects.all()
         return render(request, 'insert_reservation.html', {'rooms': rooms, 'customers': customers})  
 
+@staff_member_required(login_url='login')
 def insert_room(request):
     if request.method == 'POST':
         room = Room()
@@ -81,6 +83,7 @@ def insert_room(request):
         hotels = Hotel.objects.all()
         return render(request, 'insert_room.html', {'hotels': hotels})  
 
+@staff_member_required(login_url='login')
 def insert_item(request):
     if request.method == 'POST':
         item = Item()
@@ -91,6 +94,7 @@ def insert_item(request):
     else:
         return render(request, 'insert_item.html')  
 
+@staff_member_required(login_url='login')
 def insert_hotel(request):
     if request.method == 'POST':
         hotel = Hotel()
@@ -101,13 +105,13 @@ def insert_hotel(request):
     else:
         return render(request, 'insert_hotel.html')   
 
+@staff_member_required(login_url='login')
 def insert_customer(request):
     if request.method == 'POST':
-        customer = Customer()
-        customer.username = request.POST.get('username')
-        customer.password = request.POST.get('password')
-        customer.bill = request.POST.get('bill')
-        customer.save()
+        u = request.POST.get('username')
+        p = request.POST.get('password')
+        b = request.POST.get('bill')
+        Customer.objects.create_user(username=u, password=p, bill=b)
         return redirect('/customers')
     else:
         return render(request, 'insert_customer.html')   
@@ -128,10 +132,12 @@ class TransactionListView(ListView):
     model = Transaction
     template_name = 'transactions.html'
 
+@staff_member_required
 def reserved_hotels(request):
     template_name = 'reserved_hotels.html'
     return render(request, template_name, ['d1', 'd2'])
 
+@staff_member_required(login_url='login')
 def edit_customer(request, pk):
     instance = Customer.objects.get(pk=pk)
     redirectUrl = "/customers"
@@ -142,9 +148,13 @@ def edit_customer(request, pk):
             raise Http404
         if form.is_valid():
             instance.username=form.cleaned_data['username']
-            instance.password=form.cleaned_data['password']
             instance.bill=form.cleaned_data['bill']
-            instance.save(update_fields=['username', 'password', 'bill'])
+            password=form.cleaned_data['password']
+            if (password):
+                instance.set_password(password)
+                instance.save(update_fields=['username', 'password', 'bill'])
+            else:
+                instance.save(update_fields=['username', 'bill'])
             return HttpResponseRedirect(redirectUrl)
     else:
         if pk == '':
@@ -152,11 +162,11 @@ def edit_customer(request, pk):
         request.session['pk'] = pk
         form = CustomerEditForm({
             'username': instance.username,
-            'password': instance.password,
             'bill': instance.bill,
         })
     return render(request, 'edit.html', {'form': form.as_p()})
 
+@staff_member_required(login_url='login')
 def edit_hotel(request, pk):
     instance = Hotel.objects.get(pk=pk)
     redirectUrl = "/hotels"
@@ -180,6 +190,7 @@ def edit_hotel(request, pk):
         })
     return render(request, 'edit.html', {'form': form.as_p()})
 
+@staff_member_required(login_url='login')
 def edit_item(request, pk):
     instance = Item.objects.get(pk=pk)
     redirectUrl = "/items"
@@ -203,6 +214,7 @@ def edit_item(request, pk):
         })
     return render(request, 'edit.html', {'form': form.as_p()})
 
+@staff_member_required(login_url='login')
 def edit_reservation(request, pk):
     instance = Reservation.objects.get(pk=pk)
     redirectUrl = "/reservations"
@@ -230,6 +242,7 @@ def edit_reservation(request, pk):
         })
     return render(request, 'edit.html', {'form': form.as_p()})
 
+@staff_member_required(login_url='login')
 def edit_room(request, pk, roomNo):
     match_hotel = Hotel.objects.get(pk=pk)
     instance = Room.objects.get(
@@ -271,6 +284,7 @@ def edit_room(request, pk, roomNo):
         })
     return render(request, 'edit.html', {'form': form.as_p()})
 
+@staff_member_required(login_url='login')
 def edit_transaction(request, pk):
     instance = Transaction.objects.get(pk=pk)
     redirectUrl = "/transactions"
@@ -300,24 +314,33 @@ def edit_transaction(request, pk):
         })
     return render(request, 'edit.html', {'form': form.as_p()})
 
+@staff_member_required(login_url='login')
 def delete_customer(request, pk):
     customer_del = Customer.objects.get(pk=pk)
     customer_del.delete()
     return HttpResponseRedirect("/customers")
 
 def main_page(request):
-    return render(request, 'main.html')
+    user = request.user
+    if user.is_superuser:
+        return render(request, 'main.html')
+    else:
+        return redirect('login')
+    
 
+@staff_member_required(login_url='login')
 def delete_hotel(request, pk):
     hotel_del = Hotel.objects.get(pk=pk)
     hotel_del.delete()
     return HttpResponseRedirect("/hotels")
 
+@staff_member_required(login_url='login')
 def delete_reservation(request, pk):
     reservation_del = Reservation.objects.get(pk=pk)
     reservation_del.delete()
     return HttpResponseRedirect("/reservations")
 
+@staff_member_required(login_url='login')
 def delete_room(request, pk, roomNo):
     match_hotel = Hotel.objects.get(pk=pk)
     room_del = Room.objects.get(
@@ -327,12 +350,40 @@ def delete_room(request, pk, roomNo):
     room_del.delete()
     return HttpResponseRedirect("/rooms")
 
+@staff_member_required(login_url='login')
 def delete_transaction(request, pk):
     transaction_del = Transaction.objects.get(pk=pk)
     transaction_del.delete()
     return HttpResponseRedirect("/transactions")
 
+@staff_member_required(login_url='login')
 def delete_item(request, pk):
     item_del = Item.objects.get(pk=pk)
     item_del.delete()
     return HttpResponseRedirect("/items")
+
+@login_required(login_url='login')
+def pay_bill(request):
+    instance = request.user
+    if request.method == 'POST':
+        form = PayBillForm(request.POST)
+        if form.is_valid():
+            instance.bill-=form.cleaned_data['payment']
+            if (instance.bill < 0):
+                instance.bill = 0
+            instance.save(update_fields=['bill',])
+            return redirect('home')
+    else:
+        form = PayBillForm({
+            'payment': instance.bill,
+        })
+    return render(request, 'pay_bill.html', {'form': form.as_p()})
+
+class HotelSearchListView(ListView):
+    model = Hotel
+    template_name = 'cust_hotel_browse.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['hotnames'] = Hotel.objects.all()
+        return context
