@@ -43,6 +43,7 @@
       <tr>
         <th>Name</th>
         <th>Address</th>
+        <th>Number</th>
       </tr>
     </thead>
     <tbody>
@@ -50,11 +51,19 @@
       <tr>
         <td>{{ object.name}}</td>
         <td>{{ object.address }}</td>
+        <td>{{ object.number }}</td>
       </tr>
     {% endfor %}
     </tbody>
   </table>
   {% else %}
+  <body>
+    <center>
+      <tr>
+        <th>Empty List</th>
+      </tr>
+    </center>
+  </body>
   {% endif %}
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
