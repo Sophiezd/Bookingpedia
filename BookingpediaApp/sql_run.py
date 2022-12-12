@@ -71,3 +71,14 @@ def get_hotel_name(q):
     cursor.execute(query, (like_val,))
     result = dictfetchall(cursor)
     return result
+
+def sort_start_date_acs():
+    result = []
+    with connection.cursor() as cursor:
+        cursor.execute("""  SELECT "BookingpediaApp_reservation".id as id ,start_date, end_date, hotel_id, number as room_number, customer_id
+                            FROM "BookingpediaApp_reservation" 
+                            join "BookingpediaApp_room" on "BookingpediaApp_reservation".room_id = "BookingpediaApp_room".id
+                            ORDER BY start_date ASC """)
+        result = dictfetchall(cursor)
+    return result
+
