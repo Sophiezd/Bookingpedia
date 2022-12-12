@@ -1,9 +1,11 @@
 {% extends "tables.html" %}
 {% block content %}
 <div class="p-5 text-center bg-light" style="margin-top: 58px;">
-  <h1 class="mb-3">Reservations</h1>
+    <h1 class="mb-3">Reservations sorting by date result</h1>
 </div>
-  {% if object_list %}
+  {% csrf_token %}
+  {{form}}
+  {% if sort_resv_date %}
   <table style="width:100%" class="table table-hover">
     <thead>
       <tr>
@@ -17,29 +19,26 @@
       </tr>
     </thead>
     <tbody>
-      {% for object in object_list %}
+      {% for object in sort_resv_date %}
       <tr>
         <td>{{ object.start_date}}</td>
         <td>{{ object.end_date}}</td>
-        <td>{{ object.room.hotel.pk}}</td>
-        <td>{{ object.room.number}}</td>
-        <td>{{ object.customer.pk}}</td>
+        <td>{{ object.hotel_id}}</td>
+        <td>{{ object.room_number}}</td>
+        <td>{{ object.customer_id}}</td>
         <td>
-          <a href= "/reservations/{{object.pk}}/edit"><button type = "button" class="btn btn-secondary">Edit</button></a>
+          <a href= "/reservations/{{object.id}}/edit"><button type = "button" class="btn btn-secondary">Edit</button></a>
         </td>
         <td>
-          <button type = "button" class="btn btn-danger" onclick=likeToDelete({{object.pk}})>Delete</button>
+          <button type = "button" class="btn btn-danger" onclick=likeToDelete({{object.id}})>Delete</button>
         </td>
       </tr>
     {% endfor %}
     </tbody>
   </table>
   {% else %}
+  <p style="text-align: center">There is no matched result.</p>
   {% endif %}
-  <div class="text-center">
-    <a href={% url "insert_reservation" %}><button type = "button" class="btn btn-success">Insert Reservation</button></a>
-    <a href={% url "admin_sorting_resv_date" %}><button type = "button" class="btn btn-success">Sort reservations by startdate</button></a>
-  </div>
   <script>
     function likeToDelete(pk)
     {

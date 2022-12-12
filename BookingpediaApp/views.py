@@ -430,6 +430,13 @@ def sort_bill_cost_d(request):
     return render(request, template_name, context)
 
 
+def room_start_date_asc(request):
+    template_name = 'admin_sort_resv_date.html'
+    context = {'sort_resv_date': sort_start_date_acs()}    
+    print(context) 
+    return render(request, template_name, context)
+
+
 class HotelSearchAdminListView(ListView):
     model = Hotel
     template_name = 'admin_search_hot.html'
