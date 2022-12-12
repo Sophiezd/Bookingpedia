@@ -3,6 +3,20 @@
 <div class="p-5 text-center bg-light" style="margin-top: 58px;">
   <h1 class="mb-3">Items</h1>
 </div>
+<div class = "row">
+  <div class = "col-md-4"></div>
+  <div class = "col-md-4">
+      <form role="search" action={% url 'admin_item_search' %} method='get' class="search-bar">
+          <input type="search" list = "itemnames" id="hot_name" name='q' value="{{search_name}}" placeholder="Search By Item Name" class = "form-control">
+          <datalist id = "itemnames">
+              {% for item in itemnames %}
+                  <option value = "{{item.name}}"></option>
+              {% endfor %}
+          </datalist>
+      </form>
+  </div>
+<div class = "col-md-4"></div>
+</div>
   {% if object_list %}
   <table style="width:100%" class="table table-hover">
     <thead>
