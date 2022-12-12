@@ -2,6 +2,7 @@
 {% block content %}
 <div class="p-5 text-center bg-light" style="margin-top: 58px;">
     <h1 class="mb-3">Customers search result</h1>
+</div>
     {% csrf_token %}
     {{form}}
     {% if object_list %}
@@ -32,6 +33,6 @@
       </tbody>
     </table>
     {% else %}
-    <p>There is no matched result.</p>
+    <p style="text-align: center">There is no matched result.</p>
     {% endif %}
 {% endblock %}

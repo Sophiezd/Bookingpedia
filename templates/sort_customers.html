@@ -2,6 +2,7 @@
 {% block content %}
 <div class="p-5 text-center bg-light" style="margin-top: 58px;">
     <h1 class="mb-3">Customers sorting result</h1>
+</div>
     {% csrf_token %}
     {{form}}
     {% if sort_customers_a %}
