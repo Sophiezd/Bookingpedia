@@ -1,4 +1,4 @@
-{% extends "login.html" %}
+{% extends "tables.html" %}
 {% block content %}
 <div class="p-5 text-center bg-light" style="margin-top: 58px;">
     <h1 class="mb-3">Hotels search result</h1>
@@ -18,7 +18,7 @@
         <td>{{ hotel.name}}</td>
         <td>{{ hotel.address }}</td>
         <td>
-            <a href= "/hotels/{{object.pk}}/edit"><button type = "button" class="btn btn-secondary">See Rooms</button></a>
+            <a href= "/hotels/{{object.id}}/edit"><button type = "button" class="btn btn-secondary">See Rooms</button></a>
         </td>
       </tr>
     {% endfor %}

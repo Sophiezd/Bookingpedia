@@ -395,3 +395,53 @@ class HotelSearchListView(ListView):
         context = super().get_context_data(**kwargs)
         context['hotnames'] = Hotel.objects.all()
         return context
+
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        object_list = get_hotel_name(query)
+        print(object_list)
+        return object_list
+
+
+
+class CustomersSearchListView(ListView):
+    model = Customer
+    template_name = 'admin_search_cust.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['custnames'] = Customer.objects.all()
+        return context
+
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        object_list = get_customer_name(query)
+        return object_list
+
+    
+
+def sort_bill_cost_a(request):
+    template_name = 'sort_customers.html'
+    context = {'sort_customers_a': sort_bill_cust_a()}     
+    return render(request, template_name, context)
+
+def sort_bill_cost_d(request):
+    template_name = 'sort_customers.html'
+    context = {'sort_customers_d': sort_bill_cust_d()}     
+    return render(request, template_name, context)
+
+
+class HotelSearchAdminListView(ListView):
+    model = Hotel
+    template_name = 'admin_search_hot.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['hotnames'] = Hotel.objects.all()
+        return context
+
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        object_list = get_hotel_name(query)
+        print(object_list)
+        return object_list
