@@ -17,27 +17,29 @@
   </div>
 <div class = "col-md-4"></div>
 </div>
-  {% if object_list %}
+  {% if hotel_details %}
   <table style="width:100%" class="table table-hover">
     <thead>
       <tr>
         <th>Name</th>
         <th>Address</th>
+        <th># of Reservations</th>
         <th>Edit Entry</th>
         <th>Delete Entry</th>
       </tr>
     </thead>
     <tbody>
-      {% for object in object_list %}
+      {% for object in hotel_details %}
       <tr>
         <td>{{ object.name}}</td>
         <td>{{ object.address }}</td>
+        <td>{{ object.resv_cnt }}</td>
         <td>
-          <a href= "/hotels/{{object.pk}}/edit"><button type = "button" class="btn btn-secondary">Edit</button></a>
+          <a href= "/hotels/{{object.id}}/edit"><button type = "button" class="btn btn-secondary">Edit</button></a>
         </td>
         <td>
-          <button type = "button" class="btn btn-danger" onclick=likeToDelete({{object.pk}})>Delete</button>
-        </td>
+          <button type = "button" class="btn btn-danger" onclick=likeToDelete({{object.id}})>Delete</button>
+        </td>        
       </tr>
     {% endfor %}
     </tbody>
