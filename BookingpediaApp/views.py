@@ -399,7 +399,6 @@ class HotelSearchListView(ListView):
     def get_queryset(self):
         query = self.request.GET.get("q")
         object_list = get_hotel_name(query)
-        print(object_list)
         return object_list
 
 
@@ -431,6 +430,13 @@ def sort_bill_cost_d(request):
     return render(request, template_name, context)
 
 
+def room_start_date_asc(request):
+    template_name = 'admin_sort_resv_date.html'
+    context = {'sort_resv_date': sort_start_date_acs()}    
+    print(context) 
+    return render(request, template_name, context)
+
+
 class HotelSearchAdminListView(ListView):
     model = Hotel
     template_name = 'admin_search_hot.html'
@@ -443,5 +449,4 @@ class HotelSearchAdminListView(ListView):
     def get_queryset(self):
         query = self.request.GET.get("q")
         object_list = get_hotel_name(query)
-        print(object_list)
         return object_list

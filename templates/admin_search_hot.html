@@ -3,27 +3,43 @@
 <div class="p-5 text-center bg-light" style="margin-top: 58px;">
     <h1 class="mb-3">Hotels search result</h1>
 </div>
+  {% csrf_token %}
+  {{form}}
   {% if object_list %}
   <table style="width:100%" class="table table-hover">
     <thead>
       <tr>
         <th>Name</th>
         <th>Address</th>
-        <th>See Rooms</th>
+        <th>Edit</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
-      {% for hotel in object_list %}
+      {% for object in object_list %}
       <tr>
-        <td>{{ hotel.name}}</td>
-        <td>{{ hotel.address }}</td>
+        <td>{{ object.name}}</td>
+        <td>{{ object.address }}</td>
         <td>
-            <a href= "/hotels/{{object.id}}/edit"><button type = "button" class="btn btn-secondary">See Rooms</button></a>
+          <a href= "/hotels/{{object.id}}/edit"><button type = "button" class="btn btn-secondary">Edit</button></a>
+        </td>
+        <td>
+          <button type = "button" class="btn btn-danger" onclick=likeToDelete({{object.id}})>Delete</button>
         </td>
       </tr>
     {% endfor %}
     </tbody>
   </table>
   {% else %}
+  <p style="text-align: center">There is no matched result.</p>
   {% endif %}
+  <script>
+    function likeToDelete(pk)
+    {
+      let text = "Are you sure it is ok to delete this entry?";
+      if (confirm(text) == true) {
+        window.location.href = "/hotels/" + pk + "/delete";
+      }
+    }
+  </script>
 {% endblock %}
