@@ -399,7 +399,6 @@ class HotelSearchListView(ListView):
     def get_queryset(self):
         query = self.request.GET.get("q")
         object_list = get_hotel_name(query)
-        print(object_list)
         return object_list
 
 
@@ -443,5 +442,4 @@ class HotelSearchAdminListView(ListView):
     def get_queryset(self):
         query = self.request.GET.get("q")
         object_list = get_hotel_name(query)
-        print(object_list)
         return object_list
