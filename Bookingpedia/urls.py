@@ -15,19 +15,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from BookingpediaApp.views import CustomerListView, edit_customer, insert_hotel, HotelListView, \
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
+from BookingpediaApp.views import CustomerListView, edit_customer, insert_hotel, HotelListView, reserved_hotels, \
     edit_hotel, RoomListView, edit_room, ReservationListView, edit_reservation, \
         ItemListView, edit_item, TransactionListView, edit_transaction, delete_customer, \
             delete_hotel, delete_reservation, delete_room, delete_item, delete_transaction, main_page , \
-                insert_transaction, insert_reservation, insert_customer, insert_item, insert_room, customer_query, \
-                    item_query, hotel_query, room_query, transaction_query, reservation_query
+                insert_transaction, insert_reservation, insert_customer, insert_item, insert_room, pay_bill, \
+                    HotelSearchListView, unreserved_hotels, CustomersSearchListView, sort_bill_cost_a, sort_bill_cost_d, \
+                        HotelSearchAdminListView, room_start_date_asc, ItemsSearchListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('users/', include('django.contrib.auth.urls')),
+    path('users/', include('userInfo.urls')),
     path('', main_page, name="home"),
-    path('customers/', CustomerListView.as_view(), name="Customers"),
+    path('customers/', staff_member_required(CustomerListView.as_view(), login_url='login'), name="Customers"),
     path('customers/<int:pk>/edit/', edit_customer, name = 'editCustomers'),
-    path('hotels/', HotelListView.as_view(), name="Hotels"),
+    path('hotels/', staff_member_required(HotelListView.as_view(), login_url='login'), name="Hotels"),
     path('hotels/<int:pk>/edit/', edit_hotel, name = 'editHotels'),
     path('hotels/insert/',insert_hotel, name='insert_hotel'),
     path('customers/insert/',insert_customer, name='insert_customer'),
@@ -35,13 +40,13 @@ urlpatterns = [
     path('rooms/insert/',insert_room, name='insert_room'),
     path('reservations/insert/',insert_reservation, name='insert_reservation'),
     path('transactions/insert/',insert_transaction, name='insert_transaction'),
-    path('rooms/', RoomListView.as_view(), name="Rooms"),
+    path('rooms/', staff_member_required(RoomListView.as_view(), login_url='login'), name="Rooms"),
     path('rooms/<int:pk>/<int:roomNo>/edit/', edit_room, name = 'editRooms'),
-    path('reservations/', ReservationListView.as_view(), name="Reservations"),
+    path('reservations/', staff_member_required(ReservationListView.as_view(), login_url='login'), name="Reservations"),
     path('reservations/<int:pk>/edit/', edit_reservation, name = 'editReservations'),
-    path('items/', ItemListView.as_view(), name="Items"),
+    path('items/', staff_member_required(ItemListView.as_view(), login_url='login'), name="Items"),
     path('items/<int:pk>/edit/', edit_item, name = 'editItems'),
-    path('transactions/', TransactionListView.as_view(), name="Transactions"),
+    path('transactions/', staff_member_required(TransactionListView.as_view(), login_url='login'), name="Transactions"),
     path('transactions/<int:pk>/edit/', edit_transaction, name = 'editTransactions'),
     path('customers/<int:pk>/delete/', delete_customer, name = 'deleteCustomers'),
     path('hotels/<int:pk>/delete', delete_hotel, name = 'deleteHotels'),
@@ -49,10 +54,14 @@ urlpatterns = [
     path('reservations/<int:pk>/delete', delete_reservation, name = 'deleteReservations'),
     path('items/<int:pk>/delete', delete_item, name = 'deleteItems'),
     path('transactions/<int:pk>/delete', delete_transaction, name = 'deleteTransactions'),
-    path('customers/customer_query', customer_query, name="customer_query"),
-    path('items/item_query', item_query, name="item_query"),
-    path('hotels/hotel_query', hotel_query, name="hotel_query"),
-    path('rooms/room_query', room_query, name="room_query"),
-    path('transactions/transaction_query', transaction_query, name="transaction_query"),
-    path('reservations/reservation_query', reservation_query, name="reservation_query"),
+    path('reserved_hotels/', reserved_hotels, name='reserved_hotels'),
+    path('unreserved_hotels/', unreserved_hotels, name='unreserved_hotels'),
+    path('pay_bill', pay_bill, name='pay_bill'),
+    path('cust_hot_search', login_required(HotelSearchListView.as_view(), login_url='login'), name='customer_hotel_search'),
+    path('admin_search_cust/', CustomersSearchListView.as_view(), name='customer_name_search'),
+    path('sort_customers_asc/', sort_bill_cost_a, name='sort_by_bill_a'),
+    path('sort_customers_desc/', sort_bill_cost_d, name='sort_by_bill_d'),
+    path('admin_search_hot/', HotelSearchAdminListView.as_view(), name='admin_hotel_search'),
+    path('admin_sort_resv_date/', room_start_date_asc, name='admin_sorting_resv_date'),
+    path('admin_search_item/', ItemsSearchListView.as_view(), name='admin_item_search'),
 ]
