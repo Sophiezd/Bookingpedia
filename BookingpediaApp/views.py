@@ -370,43 +370,6 @@ def delete_item(request, pk):
     item_del.delete()
     return HttpResponseRedirect("/items")
 
-<<<<<<< HEAD
-def customer_query(request):
-    if request.method == 'POST':
-        return redirect('/customers')
-    else:
-        return render(request, 'customer_query.html')
-
-def item_query(request):
-    if request.method == 'POST':
-        return redirect('/items')
-    else:
-        return render(request, 'item_query.html')
-
-def room_query(request):
-    if request.method == 'POST':
-        return redirect('/rooms')
-    else:
-        return render(request, 'room_query.html')
-
-def transaction_query(request):
-    if request.method == 'POST':
-        return redirect('/transactions')
-    else:
-        return render(request, 'transaction_query.html')
-
-def hotel_query(request):
-    if request.method == 'POST':
-        return redirect('/hotels')
-    else:
-        return render(request, 'hotel_query.html')
-
-def reservation_query(request):
-    if request.method == 'POST':
-        return redirect('/reservations')
-    else:
-        return render(request, 'reservation_query.html')
-=======
 @login_required(login_url='login')
 def pay_bill(request):
     instance = request.user
@@ -501,4 +464,17 @@ class ItemsSearchListView(ListView):
         query = self.request.GET.get("q")
         object_list = get_item_name(query)
         return object_list
->>>>>>> eb1a4755884c8d48988a7855205fc6fe4d513e5f
+
+class ItemsSearchListView2(ListView):
+    model = Item
+    template_name = 'admin_search_item2.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['itemnames'] = Item.objects.all()
+        return context
+
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        object_list = get_item_price(query)
+        return object_list

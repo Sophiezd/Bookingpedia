@@ -90,3 +90,12 @@ def get_item_name(q):
      cursor.execute(query, (like_val,))
      result = dictfetchall(cursor)
      return result
+
+def get_item_price(q):
+     result = []
+     cursor = connection.cursor()
+     query = """SELECT * FROM "BookingpediaApp_item" where price = %s"""
+     like_val = f'{q}'  
+     cursor.execute(query, (like_val,))
+     result = dictfetchall(cursor)
+     return result
