@@ -7,6 +7,7 @@
       <tr>
         <th>Name</th>
         <th>Address</th>
+        <th># of Reservations</th>
         <th>Edit Entry</th>
         <th>Delete Entry</th>
       </tr>
@@ -16,12 +17,13 @@
       <tr>
         <td>{{ object.name}}</td>
         <td>{{ object.address }}</td>
+        <td>Change here</td>
         <td>
           <a href= "/hotels/{{object.pk}}/edit"><button type = "button" class="btn btn-secondary">Edit</button></a>
         </td>
         <td>
           <button type = "button" class="btn btn-danger" onclick=likeToDelete({{object.pk}})>Delete</button>
-        </td>
+        </td>        
       </tr>
     {% endfor %}
     </tbody>

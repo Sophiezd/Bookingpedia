@@ -9,6 +9,7 @@
         <th>Type</th>
         <th>Price ($)</th>
         <th>Hotel Id</th>
+        <th># of Reservations</th>
         <th>Edit Entry</th>
         <th>Delete Entry</th>
       </tr>
@@ -20,6 +21,7 @@
         <td>{{ object.type}}</td>
         <td>{{ object.price }}</td>
         <td>{{ object.hotel.pk }}</td>
+        <td>Change here</td>
         <td>
           <a href= "/rooms/{{object.hotel.pk}}/{{object.number}}/edit"><button type = "button" class="btn btn-secondary">Edit</button></a>
         </td>

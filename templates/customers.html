@@ -8,6 +8,7 @@
         <th>Username</th>
         <th>Password</th>
         <th>Bill ($)</th>
+        <th># of Reservations</th>
         <th>Edit Entry</th>
         <th>Delete Entry</th>
       </tr>
@@ -18,6 +19,7 @@
         <td>{{ object.username}}</td>
         <td>{{ object.password }}</td>
         <td>{{ object.bill }}</td>
+        <td>Change here</td>
         <td>
           <a href= "/customers/{{object.pk}}/edit"><button type = "button" class="btn btn-secondary">Edit</button></a>
         </td>
