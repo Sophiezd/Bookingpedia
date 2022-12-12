@@ -22,7 +22,8 @@ from BookingpediaApp.views import CustomerListView, edit_customer, insert_hotel,
         ItemListView, edit_item, TransactionListView, edit_transaction, delete_customer, \
             delete_hotel, delete_reservation, delete_room, delete_item, delete_transaction, main_page , \
                 insert_transaction, insert_reservation, insert_customer, insert_item, insert_room, pay_bill, \
-                    HotelSearchListView, unreserved_hotels
+                    HotelSearchListView, unreserved_hotels, CustomersSearchListView, sort_bill_cost_a, sort_bill_cost_d, \
+                        HotelSearchAdminListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -57,4 +58,8 @@ urlpatterns = [
     path('unreserved_hotels/', unreserved_hotels, name='unreserved_hotels'),
     path('pay_bill', pay_bill, name='pay_bill'),
     path('cust_hot_search', login_required(HotelSearchListView.as_view(), login_url='login'), name='customer_hotel_search'),
+    path('admin_search_cust/', CustomersSearchListView.as_view(), name='customer_name_search'),
+    path('sort_customers_asc/', sort_bill_cost_a, name='sort_by_bill_a'),
+    path('sort_customers_desc/', sort_bill_cost_d, name='sort_by_bill_d'),
+    path('admin_search_hot', HotelSearchAdminListView.as_view(), name='admin_hotel_search'),
 ]

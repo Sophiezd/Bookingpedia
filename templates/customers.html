@@ -1,6 +1,22 @@
 {% extends "tables.html" %}
 {% block content %}
 <h1>Customer Table</h1>
+<div class="p-5 text-center bg-light" style="margin-top: 58px;">
+  <h1 class="mb-3">Customers</h1>
+</div>
+<div class = "row">
+  <div class = "col-md-4"></div>
+  <div class = "col-md-4">
+      <form role="search" action={% url 'customer_name_search' %} method='get' class="search-bar">
+          <input type="search" list = "custnames" id="cust_name" name='q' value="{{search_name}}" placeholder="Search By Customers Name" class = "form-control">
+          <datalist id = "custnames">
+              {% for cust in custnames %}
+                  <option value = "{{cust.name}}"></option>
+              {% endfor %}
+          </datalist>
+      </form>
+  </div>
+</div>
   {% if object_list %}
   <table style="width:100%" class="table table-hover">
     <thead>
@@ -35,6 +51,12 @@
   <div class="text-center">
     <a href={% url "insert_customer" %}><button type = "button" class="btn btn-success">Insert Customer</button></a>
   </div>
+  <br>
+  <div class="text-center">
+    <a href={% url "sort_by_bill_a" %}><button type = "button" class="btn btn-success">Sort Customers by ascending</button></a>
+    <a href={% url "sort_by_bill_d" %}><button type = "button" class="btn btn-success">Sort Customers by descending</button></a>
+  </div>
+
     <script>
       function likeToDelete(pk)
       {

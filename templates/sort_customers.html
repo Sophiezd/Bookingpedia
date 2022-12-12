@@ -1,0 +1,64 @@
+{% extends "tables.html" %}
+{% block content %}
+<div class="p-5 text-center bg-light" style="margin-top: 58px;">
+    <h1 class="mb-3">Customers sorting result</h1>
+    {% csrf_token %}
+    {{form}}
+    {% if sort_customers_a %}
+    <table style="width:100%" class="table table-hover">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Password</th>
+          <th>Bill ($)</th>
+          <th>Edit Entry</th>
+          <th>Delete Entry</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for object in sort_customers_a %}
+        <tr>
+          <td>{{ object.username}}</td>
+          <td>{{ object.password }}</td>
+          <td>{{ object.bill }}</td>
+          <td>
+            <a href= "/customers/{{object.id}}/edit"><button type = "button" class="btn btn-secondary">Edit</button></a>
+          </td>
+          <td>
+            <button type = "button" class="btn btn-danger" onclick=likeToDelete({{object.id}})>Delete</button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% elif sort_customers_d %}
+    <table style="width:100%" class="table table-hover">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Password</th>
+          <th>Bill ($)</th>
+          <th>Edit Entry</th>
+          <th>Delete Entry</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for object in sort_customers_d %}
+        <tr>
+          <td>{{ object.username}}</td>
+          <td>{{ object.password }}</td>
+          <td>{{ object.bill }}</td>
+          <td>
+            <a href= "/customers/{{object.id}}/edit"><button type = "button" class="btn btn-secondary">Edit</button></a>
+          </td>
+          <td>
+            <button type = "button" class="btn btn-danger" onclick=likeToDelete({{object.id}})>Delete</button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>There is no matched result.</p>
+    {% endif %}
+{% endblock %}
