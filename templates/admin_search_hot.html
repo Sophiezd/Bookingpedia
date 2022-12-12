@@ -33,4 +33,13 @@
   {% else %}
   <p style="text-align: center">There is no matched result.</p>
   {% endif %}
+  <script>
+    function likeToDelete(pk)
+    {
+      let text = "Are you sure it is ok to delete this entry?";
+      if (confirm(text) == true) {
+        window.location.href = "/hotels/" + pk + "/delete";
+      }
+    }
+  </script>
 {% endblock %}
