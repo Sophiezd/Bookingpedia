@@ -3,7 +3,7 @@
 <div class="p-5 text-center bg-light" style="margin-top: 58px;">
   <h1 class="mb-3">Rooms</h1>
 </div>
-  {% if object_list %}
+  {% if room_details %}
   <table style="width:100%" class="table table-hover">
     <thead>
       <tr>
@@ -17,18 +17,18 @@
       </tr>
     </thead>
     <tbody>
-      {% for object in object_list %}
+      {% for object in room_details %}
       <tr>
         <td>{{ object.number}}</td>
         <td>{{ object.type}}</td>
         <td>{{ object.price }}</td>
-        <td>{{ object.hotel.pk }}</td>
-        <td>Change here</td>
+        <td>{{ object.hotel_id }}</td>
+        <td>{{ object.resv_cnt }}</td>
         <td>
-          <a href= "/rooms/{{object.hotel.pk}}/{{object.number}}/edit"><button type = "button" class="btn btn-secondary">Edit</button></a>
+          <a href= "/rooms/{{object.hotel_id}}/{{object.number}}/edit"><button type = "button" class="btn btn-secondary">Edit</button></a>
         </td>
         <td>
-          <button type = "button" class="btn btn-danger" onclick=likeToDelete({{object.hotel.pk}},{{object.number}})>Delete</button>
+          <button type = "button" class="btn btn-danger" onclick=likeToDelete({{object.hotel_id}},{{object.number}})>Delete</button>
         </td>
       </tr>
     {% endfor %}
@@ -49,3 +49,4 @@
     }
   </script>
 {% endblock %}
+
