@@ -38,3 +38,36 @@ def get_unreserved_rooms():
         
         result = dictfetchall(cursor)
     return result
+
+def get_customer_name(q):
+    result = []
+    cursor = connection.cursor()
+    query = """SELECT * FROM "BookingpediaApp_customer" where username LIKE %s"""
+    like_val = f'%{q}%'    
+    cursor.execute(query, (like_val,))
+    result = dictfetchall(cursor)
+    return result
+
+def sort_bill_cust_d():
+    result = []
+    with connection.cursor() as cursor:
+        cursor.execute(""" SELECT * FROM "BookingpediaApp_customer" ORDER BY bill DESC """)
+        result = dictfetchall(cursor)
+    return result
+
+def sort_bill_cust_a():
+    result = []
+    with connection.cursor() as cursor:
+        cursor.execute(""" SELECT * FROM "BookingpediaApp_customer" ORDER BY bill ASC """)
+        result = dictfetchall(cursor)
+    return result
+
+
+def get_hotel_name(q):
+    result = []
+    cursor = connection.cursor()
+    query = """SELECT * FROM "BookingpediaApp_hotel" where name LIKE %s"""
+    like_val = f'%{q}%'    
+    cursor.execute(query, (like_val,))
+    result = dictfetchall(cursor)
+    return result
