@@ -462,3 +462,17 @@ class HotelSearchAdminListView(ListView):
         query = self.request.GET.get("q")
         object_list = get_hotel_name(query)
         return object_list
+
+class ItemsSearchListView(ListView):
+    model = Item
+    template_name = 'admin_search_item.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['itemnames'] = Item.objects.all()
+        return context
+
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        object_list = get_item_name(query)
+        return object_list

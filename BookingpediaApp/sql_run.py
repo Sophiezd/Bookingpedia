@@ -116,3 +116,11 @@ def sort_start_date_acs():
         result = dictfetchall(cursor)
     return result
 
+def get_item_name(q):
+     result = []
+     cursor = connection.cursor()
+     query = """SELECT * FROM "BookingpediaApp_item" where name LIKE %s"""
+     like_val = f'%{q}%'    
+     cursor.execute(query, (like_val,))
+     result = dictfetchall(cursor)
+     return result

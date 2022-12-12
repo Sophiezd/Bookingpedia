@@ -1,7 +1,21 @@
 {% extends "login.html" %}
 {% block content %}
 <div class="p-5 text-center bg-light" style="margin-top: 58px;">
-    <h1 class="mb-3">Hotels search result</h1>
+    <h1 class="mb-3">Hotels</h1>
+</div>
+<div class = "row">
+    <div class = "col-md-4"></div>
+    <div class = "col-md-4">
+        <form role="search" action={% url 'customer_hotel_search' %} method='get' class="search-bar">
+            <input type="search" list = "hotnames" id="hot_name" name='name' value="{{search_name}}" placeholder="Search By Hotel Name" class = "form-control">
+            <datalist id = "hotnames">
+                {% for hot in hotnames %}
+                    <option value = "{{hot.name}}"></option>
+                {% endfor %}
+            </datalist>
+        </form>
+    </div>
+<div class = "col-md-4"></div>
 </div>
   {% if object_list %}
   <table style="width:100%" class="table table-hover">
