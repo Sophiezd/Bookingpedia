@@ -1,0 +1,60 @@
+{% extends "login.html" %}
+{% block content %}
+<div class="p-5 text-center bg-light" style="margin-top: 58px;">
+  <h1 class="mb-3">Rooms</h1>
+</div>
+{% with request.path|add:'res' as temp %}
+<form action={{temp}} method='get'>
+{% endwith %}
+    <div class = "row">
+        <div class = "col-md-3"></div>
+        <div class = "col-md-3">
+            <label for="priceMin">Minimum Price</label>
+            <input type="number" min=0 class="form-control" id="priceMin" placeholder="0" name="price_min">
+        </div>
+        <div class = "col-md-3">
+            <label for="priceMax">Maximum Price</label>
+            <input type="number" min=0 class="form-control" id="priceMax" placeholder="0" name="price_max">
+        </div>
+        <div class = "col-md-3"></div>
+    </div>
+    <div class="text-center">
+        <button type="Search" class="btn btn-dark">Search by Price</button>
+    </div>
+</form>
+
+  {% if object_list %}
+  <table style="width:100%" class="table table-hover">
+    <thead>
+      <tr>
+        <th>Number</th>
+        <th>Type</th>
+        <th>Price ($)</th>
+        <th>Reserve</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for object in object_list %}
+      <tr>
+        <td>{{ object.number}}</td>
+        <td>{{ object.type}}</td>
+        <td>{{ object.price }}</td>
+        <td>
+            <a href= "/reserve/{{object.hotel_id}}/{{object.number}}"><button type = "button" class="btn btn-secondary">Reserve Room</button></a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  {% endif %}
+  <div class="text-center">
+    <a href={% url "insert_hotel" %}><button type = "button" class="btn btn-success">Insert Hotel</button></a>
+  </div>
+  <div class="text-center" style="position:relative; top:20px">
+    <a href={% url "reserved_hotels" %}><button type = "button" class="btn btn-success">Reserved Hotel(s) List</button></a>
+  </div>
+  <div class="text-center" style="position:relative; top:40px">
+    <a href={% url "unreserved_hotels" %}><button type = "button" class="btn btn-success">Unreserved Hotel(s) List</button></a>
+  </div>
+{% endblock %}

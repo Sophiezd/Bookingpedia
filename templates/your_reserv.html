@@ -1,0 +1,33 @@
+{% extends "login.html" %}
+{% block content %}
+<div class="p-5 text-center bg-light" style="margin-top: 58px;">
+  <h1 class="mb-3">Your Reservations</h1>
+</div>
+  {% if object_list %}
+  <table style="width:100%" class="table table-hover">
+    <thead>
+      <tr>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Hotel Name</th>
+        <th>Room Number</th>
+        <th>Order</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for object in object_list %}
+      <tr>
+        <td>{{ object.1}}</td>
+        <td>{{ object.2}}</td>
+        <td>{{ object.3}}</td>
+        <td>{{ object.4}}</td>
+        <td>
+            <a href= "buy_item/{{object.0}}"><button type = "button" class="btn btn-secondary">Order</button></a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  {% endif %}
+{% endblock %}

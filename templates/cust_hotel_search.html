@@ -1,0 +1,61 @@
+{% extends "login.html" %}
+{% block content %}
+<div class="p-5 text-center bg-light" style="margin-top: 58px;">
+  <h1 class="mb-3">Hotels</h1>
+</div>
+<div class = "row">
+  <div class = "col-md-4"></div>
+  <div class = "col-md-4">
+      <form role="search" action={% url 'customer_hotel_search_result' %} method='get' class="search-bar">
+          <input type="search" list = "hotnames" id="hot_name" name='q' placeholder="Search By Hotel Name" class = "form-control">
+          <datalist id = "hotnames">
+              {% for object in object_list %}
+                  <option value = "{{object.name}}"></option>
+              {% endfor %}
+          </datalist>
+      </form>
+  </div>
+<div class = "col-md-4"></div>
+</div>
+  {% if object_list %}
+  <table style="width:100%" class="table table-hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>See Room</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for object in object_list %}
+      <tr>
+        <td>{{ object.name}}</td>
+        <td>{{ object.address }}</td>
+        <td>
+            <a href= "/hotels/{{object.id}}/view"><button type = "button" class="btn btn-secondary">See Rooms</button></a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  {% endif %}
+  <div class="text-center">
+    <a href={% url "insert_hotel" %}><button type = "button" class="btn btn-success">Insert Hotel</button></a>
+  </div>
+  <div class="text-center" style="position:relative; top:20px">
+    <a href={% url "reserved_hotels" %}><button type = "button" class="btn btn-success">Reserved Hotel(s) List</button></a>
+  </div>
+  <div class="text-center" style="position:relative; top:40px">
+    <a href={% url "unreserved_hotels" %}><button type = "button" class="btn btn-success">Unreserved Hotel(s) List</button></a>
+  </div>
+  <script>
+    function likeToDelete(pk)
+    {
+      let text = "Are you sure it is ok to delete this entry?";
+      if (confirm(text) == true) {
+        window.location.href = "/hotels/" + pk + "/delete";
+      }
+    }
+  </script>
+{% endblock %}

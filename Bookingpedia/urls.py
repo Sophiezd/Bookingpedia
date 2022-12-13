@@ -23,7 +23,8 @@ from BookingpediaApp.views import CustomerListView, edit_customer, insert_hotel,
             delete_hotel, delete_reservation, delete_room, delete_item, delete_transaction, main_page , \
                 insert_transaction, insert_reservation, insert_customer, insert_item, insert_room, pay_bill, \
                     HotelSearchListView, unreserved_hotels, CustomersSearchListView, sort_bill_cost_a, sort_bill_cost_d, \
-                        HotelSearchAdminListView, room_start_date_asc
+                        HotelSearchAdminListView, room_start_date_asc, CustHotelListView, cust_room_list, cust_room_res, \
+                            make_reservation, my_res, buy_item
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -57,10 +58,16 @@ urlpatterns = [
     path('reserved_hotels/', reserved_hotels, name='reserved_hotels'),
     path('unreserved_hotels/', unreserved_hotels, name='unreserved_hotels'),
     path('pay_bill', pay_bill, name='pay_bill'),
-    path('cust_hot_search', login_required(HotelSearchListView.as_view(), login_url='login'), name='customer_hotel_search'),
-    path('admin_search_cust/', CustomersSearchListView.as_view(), name='customer_name_search'),
+    path('cust_hot_search_res', login_required(HotelSearchListView.as_view(), login_url='login'), name='customer_hotel_search_result'),
+    path('admin_search_cust/', staff_member_required(CustomersSearchListView.as_view(), login_url='login'), name='customer_name_search'),
     path('sort_customers_asc/', sort_bill_cost_a, name='sort_by_bill_a'),
     path('sort_customers_desc/', sort_bill_cost_d, name='sort_by_bill_d'),
-    path('admin_search_hot/', HotelSearchAdminListView.as_view(), name='admin_hotel_search'),
+    path('admin_search_hot/', staff_member_required(HotelSearchAdminListView.as_view(), login_url='login'), name='admin_hotel_search'),
     path('admin_sort_resv_date/', room_start_date_asc, name='admin_sorting_resv_date'),
+    path('cust_hot_search', login_required(CustHotelListView.as_view(), login_url='login'), name="customer_hotel_search"),
+    path('hotels/<int:pk>/view/', cust_room_list, name="customer_room_search"),
+    path('hotels/<int:pk>/view/res', cust_room_res, name="customer_room_search_results"),
+    path('reserve/<int:hpk>/<int:rpk>', make_reservation, name="reserve_room"),
+    path('my_reserv', my_res, name="my_reservations"),
+    path('buy_item/<int:pk>', buy_item, name="buy_item"),
 ]
