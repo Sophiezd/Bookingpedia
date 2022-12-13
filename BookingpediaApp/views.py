@@ -14,10 +14,18 @@ from django.contrib.auth.decorators import login_required
 
 class CustomerListView(ListView):
     model = Customer
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['customer_details'] = get_customer_details()
+        return context
     template_name = 'customers.html'
 
 class HotelListView(ListView):
     model = Hotel
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['hotel_details'] = get_hotel_details()
+        return context
     template_name = 'hotels.html'
 
 @staff_member_required(login_url='login')
@@ -120,7 +128,11 @@ def insert_customer(request):
         return render(request, 'insert_customer.html')   
 
 class RoomListView(ListView):
-    model = Room
+    model = Room    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['room_details'] = get_room_details()
+        return context
     template_name = 'rooms.html'
 
 class ReservationListView(ListView):
@@ -525,3 +537,16 @@ def buy_item(request, pk):
         reserv = Reservation.objects.get(pk=pk)
         items = Item.objects.all()
         return render(request, 'order_item.html', {'object_list': items, 'reservation': reserv})
+class ItemsSearchListView(ListView):
+    model = Item
+    template_name = 'admin_search_item.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['itemnames'] = Item.objects.all()
+        return context
+
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        object_list = get_item_name(query)
+        return object_list

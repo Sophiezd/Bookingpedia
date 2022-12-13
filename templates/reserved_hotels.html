@@ -43,7 +43,7 @@
       <tr>
         <th>Name</th>
         <th>Address</th>
-        <th>Number</th>
+        <th>Room Number</th>
       </tr>
     </thead>
     <tbody>
@@ -56,12 +56,20 @@
     {% endfor %}
     </tbody>
   </table>
+  <div>
+    <center>
+      <a href= "{% url 'Hotels' %}"><button type = "button" class="btn btn-primary">Back</button></a>
+    </center>
+  </div>
   {% else %}
   <body>
     <center>
       <tr>
-        <th>Empty List</th>
+        <th>List is Empty</th>
       </tr>
+      <div>
+          <a href= "{% url 'Hotels' %}"><button type = "button" class="btn btn-primary">Back</button></a>
+      </div>
     </center>
   </body>
   {% endif %}
