@@ -5,6 +5,12 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 class Customer(AbstractUser):
     bill = models.FloatField(default=0)
+    class Meta:
+        indexes = [
+            BTreeIndex(
+                fields=['bill',]
+            )
+        ]
 
         
 
@@ -30,12 +36,24 @@ class Room(models.Model):
                 fields=['number', 'hotel'], name='unique_number_hotel_combination'
             )
         ]
+        indexes = [
+            BTreeIndex(
+                fields=['price',]
+            )
+        ]
 
 class Reservation(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     room = models.ForeignKey(Room, related_name='Reservations', on_delete=models.CASCADE)
     customer = models.ForeignKey(Customer, related_name='Reservations', on_delete=models.CASCADE)
+
+    class Meta:
+        indexes = [
+            BTreeIndex(
+                fields=['start_date',]
+            )
+        ]
 
 
 class Item(models.Model):
@@ -47,7 +65,7 @@ class Item(models.Model):
     
     class Meta:
         indexes = [
-            BTreeIndex(
+            HashIndex(
                 fields=['price',]
             )
         ]
@@ -58,3 +76,10 @@ class Transaction(models.Model):
     item = models.ForeignKey(Item, related_name='Transactions', on_delete=models.CASCADE)
     customer = models.ForeignKey(Customer, related_name='Transactions', on_delete=models.CASCADE)
     room = models.ForeignKey(Room, related_name='Transactions', on_delete=models.CASCADE)
+
+    class Meta:
+        indexes = [
+            BTreeIndex(
+                fields=['item_id',]
+            )
+        ]
