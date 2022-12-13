@@ -99,3 +99,28 @@ def get_item_price(q):
      cursor.execute(query, (like_val,))
      result = dictfetchall(cursor)
      return result
+
+def get_transaction_item(q):
+     result = []
+     cursor = connection.cursor()
+     query = """SELECT "BookingpediaApp_transaction".item_id, "BookingpediaApp_item".name, "BookingpediaApp_item".price, count(*)
+                FROM "BookingpediaApp_transaction"
+                JOIN "BookingpediaApp_item"
+				ON "BookingpediaApp_transaction".item_id = "BookingpediaApp_item".id
+                GROUP BY "BookingpediaApp_item".name, "BookingpediaApp_item".id, "BookingpediaApp_transaction".item_id"""
+     like_val = f'%{q}%'
+     cursor.execute(query, (like_val,))
+     result = dictfetchall(cursor)
+     return result
+
+def get_transaction_customer(q):
+     result = []
+     cursor = connection.cursor()
+     query = """SELECT customer_id, "BookingpediaApp_customer".username, count(*)
+                FROM "BookingpediaApp_transaction"
+                JOIN "BookingpediaApp_customer" ON "BookingpediaApp_transaction".customer_id = "BookingpediaApp_customer".id
+                GROUP BY "BookingpediaApp_customer".username, customer_id"""
+     like_val = f'%{q}%'  
+     cursor.execute(query, (like_val,))
+     result = dictfetchall(cursor)
+     return result

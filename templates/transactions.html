@@ -40,6 +40,8 @@
   {% endif %}
   <div class="text-center">
     <a href={% url "insert_transaction" %}><button type = "button" class="btn btn-success">Insert Transaction</button></a>
+    <a href={% url "admin_transaction_search" %}><button type = "button" class="btn btn-success">See Transactions Group By Item</button></a>
+    <a href={% url "admin_transaction_search2" %}><button type = "button" class="btn btn-success">See Transactions Group By Customer</button></a>
   </div>
   <script>
     function likeToDelete(pk)

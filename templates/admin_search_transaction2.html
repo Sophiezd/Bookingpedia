@@ -1,0 +1,31 @@
+{% extends "tables.html" %}
+{% block content %}
+<div class="p-5 text-center bg-light" style="margin-top: 58px;">
+    <h1 class="mb-3">Transaction search through item result</h1>
+</div>
+  {% csrf_token %}
+  {{form}}
+  {% if object_list %}
+  <table style="width:100%" class="table table-hover">
+    <thead>
+      <tr>
+        <th>Customer Id</th>
+        <th>Customer Name</th>
+        <th>Number of Transactions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+        {% for object in object_list %}
+        <tr>
+          <td>{{ object.customer_id}}</td>
+          <td>{{ object.username }}</td>
+          <td>{{ object.count }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+  </table>
+  {% else %}
+  <p style="text-align: center">There is no matched result.</p>
+  {% endif %}
+{% endblock %}

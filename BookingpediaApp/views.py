@@ -478,3 +478,31 @@ class ItemsSearchListView2(ListView):
         query = self.request.GET.get("q")
         object_list = get_item_price(query)
         return object_list
+
+class TransactionSearchListView(ListView):
+    model = Transaction
+    template_name = 'admin_search_transaction.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['transnames'] = Transaction.objects.all()
+        return context
+
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        object_list = get_transaction_item(query)
+        return object_list
+
+class TransactionSearchListView2(ListView):
+    model = Transaction
+    template_name = 'admin_search_transaction2.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['transnames'] = Transaction.objects.all()
+        return context
+
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        object_list = get_transaction_customer(query)
+        return object_list
