@@ -6,6 +6,7 @@ from .models import Customer, Room, Hotel, Reservation, Item, Transaction
 from django.http import HttpResponseRedirect, Http404
 from .forms import CustomerEditForm, HotelEditForm, RoomEditForm, ReservationEditForm, ItemEditForm, TransactionEditForm, PayBillForm
 from django.db.models import Q
+from django.utils import timezone
 
 from .sql_run import *
 from django.contrib.admin.views.decorators import staff_member_required
@@ -13,10 +14,18 @@ from django.contrib.auth.decorators import login_required
 
 class CustomerListView(ListView):
     model = Customer
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['customer_details'] = get_customer_details()
+        return context
     template_name = 'customers.html'
 
 class HotelListView(ListView):
     model = Hotel
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['hotel_details'] = get_hotel_details()
+        return context
     template_name = 'hotels.html'
 
 @staff_member_required(login_url='login')
@@ -119,7 +128,11 @@ def insert_customer(request):
         return render(request, 'insert_customer.html')   
 
 class RoomListView(ListView):
-    model = Room
+    model = Room    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['room_details'] = get_room_details()
+        return context
     template_name = 'rooms.html'
 
 class ReservationListView(ListView):
@@ -387,6 +400,10 @@ def pay_bill(request):
         })
     return render(request, 'pay_bill.html', {'form': form.as_p()})
 
+class CustHotelListView(ListView):
+    model = Hotel
+    template_name = 'cust_hotel_search.html'
+
 class HotelSearchListView(ListView):
     model = Hotel
     template_name = 'cust_hotel_browse.html'
@@ -400,7 +417,6 @@ class HotelSearchListView(ListView):
         query = self.request.GET.get("q")
         object_list = get_hotel_name(query)
         return object_list
-
 
 
 class CustomersSearchListView(ListView):
@@ -418,18 +434,19 @@ class CustomersSearchListView(ListView):
         return object_list
 
     
-
+@staff_member_required(login_url='login')
 def sort_bill_cost_a(request):
     template_name = 'sort_customers.html'
     context = {'sort_customers_a': sort_bill_cust_a()}     
     return render(request, template_name, context)
 
+@staff_member_required(login_url='login')
 def sort_bill_cost_d(request):
     template_name = 'sort_customers.html'
     context = {'sort_customers_d': sort_bill_cust_d()}     
     return render(request, template_name, context)
 
-
+@staff_member_required(login_url='login')
 def room_start_date_asc(request):
     template_name = 'admin_sort_resv_date.html'
     context = {'sort_resv_date': sort_start_date_acs()}    
@@ -451,6 +468,75 @@ class HotelSearchAdminListView(ListView):
         object_list = get_hotel_name(query)
         return object_list
 
+@login_required(login_url='login')
+def cust_room_list(request, pk):
+    match_hotel = Hotel.objects.get(pk=pk)
+    instance = get_hotel_rooms(match_hotel.pk)
+    return render(request, 'cust_room_search.html', {'object_list': instance})
+
+@login_required(login_url='login')
+def cust_room_res(request, pk):
+    match_hotel = Hotel.objects.get(pk=pk)
+    max = request.GET.get("price_max")
+    min = request.GET.get("price_min")
+    if max and min:
+        print('call 1')
+        instance = get_hotel_rooms_between(match_hotel.pk, max, min)
+    elif max:
+        print('call 2')
+        instance = get_hotel_rooms_max(match_hotel.pk, max)
+    elif min:
+        print('call 3')
+        instance = get_hotel_rooms_min(match_hotel.pk, min)
+    else:
+        print('call 4')
+        instance = get_hotel_rooms(match_hotel.pk)
+    return render(request, 'cust_room_browse.html', {'object_list': instance})
+
+@login_required(login_url='login')
+def make_reservation(request, hpk, rpk):
+    if request.method == 'POST':
+        reservation = Reservation()
+        reservation.start_date = request.POST.get('start_date')
+        reservation.end_date = request.POST.get('end_date')        
+        reservation.customer = request.user
+        match_hotel = Hotel.objects.get(pk=hpk)
+        reservation.room = Room.objects.get(
+            Q(hotel=match_hotel),
+            Q(number=rpk)
+        )
+        reservation.customer.bill += reservation.room.price
+        reservation.save()
+        reservation.customer.save()
+        return redirect('my_reservations')
+    else:
+        return render(request, 'reserve_room.html', {})
+
+@login_required(login_url='login')
+def my_res(request):
+    res_list = get_reservations(request.user.id)
+    return render(request, 'your_reserv.html', {'object_list': res_list})
+
+@login_required(login_url='login')
+def buy_item(request, pk):
+    if request.method == 'POST':
+        transaction = Transaction()
+        transaction.timestamp = timezone.now()
+        transaction.count = request.POST.get('count')
+        item_id = request.POST.get('item')
+        transaction.item = Item.objects.get(pk=item_id)
+        customer = request.user
+        transaction.customer = customer
+        reserv = Reservation.objects.get(pk=pk)
+        transaction.room = reserv.room
+        customer.bill += round(float(transaction.item.price) * float(transaction.count))
+        transaction.save()
+        customer.save()
+        return redirect('home')
+    else:
+        reserv = Reservation.objects.get(pk=pk)
+        items = Item.objects.all()
+        return render(request, 'order_item.html', {'object_list': items, 'reservation': reserv})
 class ItemsSearchListView(ListView):
     model = Item
     template_name = 'admin_search_item.html'

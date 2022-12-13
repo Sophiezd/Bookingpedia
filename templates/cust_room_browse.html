@@ -1,0 +1,33 @@
+{% extends "login.html" %}
+{% block content %}
+<<div class="p-5 text-center bg-light" style="margin-top: 58px;">
+  <h1 class="mb-3">Rooms</h1>
+</div>
+{% csrf_token %}
+{{form}}
+{% if object_list %}
+  <table style="width:100%" class="table table-hover">
+    <thead>
+      <tr>
+        <th>Number</th>
+        <th>Type</th>
+        <th>Price ($)</th>
+        <th>Reserve</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for object in object_list %}
+      <tr>
+        <td>{{ object.number}}</td>
+        <td>{{ object.type}}</td>
+        <td>{{ object.price }}</td>
+        <td>
+            <a href= "/reserve/{{object.hotel_id}}/{{object.number}}"><button type = "button" class="btn btn-secondary">Reserve Room</button></a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  {% endif %}
+{% endblock %}

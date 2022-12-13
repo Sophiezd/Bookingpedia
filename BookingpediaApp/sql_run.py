@@ -39,6 +39,40 @@ def get_unreserved_rooms():
         result = dictfetchall(cursor)
     return result
 
+def get_hotel_details():
+    result = []
+    with connection.cursor() as cursor:
+        cursor.execute('''
+            SELECT "BookingpediaApp_hotel".*, resv_cnt FROM "BookingpediaApp_hotel" LEFT JOIN (SELECT "BookingpediaApp_room".hotel_id, sum(cnt1) as resv_cnt FROM
+            "BookingpediaApp_room" INNER JOIN 
+            (SELECT room_id as resv_room_id, count(*) as cnt1 FROM "BookingpediaApp_reservation" group by room_id) AS "resv_table"
+            ON id = resv_room_id GROUP BY hotel_id) tmp_table ON id = hotel_id ORDER BY id
+            ''')
+        result = dictfetchall(cursor)
+    return result
+
+def get_room_details():
+    result = []
+    with connection.cursor() as cursor:
+        cursor.execute('''
+            SELECT "BookingpediaApp_room".*, cnt1 AS resv_cnt FROM "BookingpediaApp_room" LEFT JOIN 
+            (SELECT room_id, count(*) as cnt1 FROM "BookingpediaApp_reservation" group by room_id) AS "resv_table"
+            ON id = room_id ORDER BY id
+            ''')
+        result = dictfetchall(cursor)
+    return result
+
+def get_customer_details():
+    result = []
+    with connection.cursor() as cursor:
+        cursor.execute('''
+            SELECT "BookingpediaApp_customer".*, cnt1 AS resv_cnt FROM "BookingpediaApp_customer" LEFT JOIN 
+            (SELECT customer_id, count(*) as cnt1 FROM "BookingpediaApp_reservation" group by customer_id) AS "resv_table"
+            ON id = customer_id ORDER BY id
+            ''')
+        result = dictfetchall(cursor)
+    return result
+
 def get_customer_name(q):
     result = []
     cursor = connection.cursor()
@@ -82,6 +116,45 @@ def sort_start_date_acs():
         result = dictfetchall(cursor)
     return result
 
+def get_hotel_rooms(q):
+    result = []
+    cursor = connection.cursor()
+    query = """SELECT * FROM "BookingpediaApp_room" where hotel_id = %s"""
+    q == f'{q}'
+    cursor.execute(query, (q,))
+    result = dictfetchall(cursor)
+    return result
+
+def get_hotel_rooms_between(q, max, min):
+    result = []
+    cursor = connection.cursor()
+    query = """SELECT * FROM "BookingpediaApp_room" where hotel_id = %s AND price <= %s AND price >= %s"""
+    q == f'{q}'
+    max == f'{max}'
+    min == f'{min}'
+    cursor.execute(query, (q, max, min))
+    result = dictfetchall(cursor)
+    return result
+
+def get_hotel_rooms_max(q, max):
+    result = []
+    cursor = connection.cursor()
+    query = """SELECT * FROM "BookingpediaApp_room" where hotel_id = %s AND price <= %s"""
+    q == f'{q}'
+    max == f'{max}'
+    cursor.execute(query, (q, max,))
+    result = dictfetchall(cursor)
+    return result
+
+def get_hotel_rooms_min(q, min):
+    result = []
+    cursor = connection.cursor()
+    query = """SELECT * FROM "BookingpediaApp_room" where hotel_id = %s AND price >= %s"""
+    q == f'{q}'
+    min == f'{min}'
+    cursor.execute(query, (q, min,))
+    result = dictfetchall(cursor)
+    return result
 def get_item_name(q):
      result = []
      cursor = connection.cursor()
@@ -124,3 +197,16 @@ def get_transaction_customer(q):
      cursor.execute(query, (like_val,))
      result = dictfetchall(cursor)
      return result
+def get_reservations(q):
+    result = []
+    cursor = connection.cursor()
+    query = """ SELECT res.id as id, res.start_date as start_date, res.end_date as end_date, hot.name as name, room.number as number
+                FROM "BookingpediaApp_reservation" res
+                JOIN "BookingpediaApp_room" as room ON res.room_id = room.id
+                JOIN "BookingpediaApp_hotel" as hot ON room.hotel_id = hot.id
+                WHERE customer_id =  %s
+            """
+    q == f'{q}'
+    cursor.execute(query, (q,))
+    result = cursor.fetchall()
+    return result
