@@ -91,10 +91,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
             <a class="nav-link" href="{% url 'customer_hotel_search' %}">Browse Hotels</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/hotels">Your Reservations</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/rooms">Order Item</a>
+            <a class="nav-link" href="{% url 'my_reservations' %}">Your Reservations</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'pay_bill' %}">Pay Bill: ${{ user.bill|floatformat:2 }}</a>

@@ -1,7 +1,7 @@
 {% extends "login.html" %}
 {% block content %}
-<div class="p-5 text-center bg-light" style="margin-top: 58px;">
-    <h1 class="mb-3">Hotels</h1>
+<<div class="p-5 text-center bg-light" style="margin-top: 58px;">
+  <h1 class="mb-3">Hotels</h1>
 </div>
 <div class = "row">
     <div class = "col-md-4"></div>
@@ -17,27 +17,30 @@
     </div>
 <div class = "col-md-4"></div>
 </div>
-  {% if object_list %}
-  <table style="width:100%" class="table table-hover">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Address</th>
-        <th>See Rooms</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for hotel in object_list %}
-      <tr>
-        <td>{{ hotel.name}}</td>
-        <td>{{ hotel.address }}</td>
-        <td>
-            <a href= "/hotels/{{object.pk}}/edit"><button type = "button" class="btn btn-secondary">See Rooms</button></a>
-        </td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
-  {% else %}
-  {% endif %}
+{% csrf_token %}
+{{form}}
+{% if object_list %}
+<table style="width:100%" class="table table-hover">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Address</th>
+      <th>See Rooms</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for object in object_list %}
+    <tr>
+      <td>{{ object.name}}</td>
+      <td>{{ object.address }}</td>
+      <td>
+        <a href= "/hotels/{{object.id}}/view"><button type = "button" class="btn btn-secondary">See Rooms</button></a>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p style="text-align: center">There is no matched result.</p>
+{% endif %}
 {% endblock %}
