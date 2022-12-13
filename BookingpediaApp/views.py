@@ -450,7 +450,6 @@ def sort_bill_cost_d(request):
 def room_start_date_asc(request):
     template_name = 'admin_sort_resv_date.html'
     context = {'sort_resv_date': sort_start_date_acs()}    
-    print(context) 
     return render(request, template_name, context)
 
 
@@ -480,16 +479,12 @@ def cust_room_res(request, pk):
     max = request.GET.get("price_max")
     min = request.GET.get("price_min")
     if max and min:
-        print('call 1')
         instance = get_hotel_rooms_between(match_hotel.pk, max, min)
     elif max:
-        print('call 2')
         instance = get_hotel_rooms_max(match_hotel.pk, max)
     elif min:
-        print('call 3')
         instance = get_hotel_rooms_min(match_hotel.pk, min)
     else:
-        print('call 4')
         instance = get_hotel_rooms(match_hotel.pk)
     return render(request, 'cust_room_browse.html', {'object_list': instance})
 
