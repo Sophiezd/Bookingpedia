@@ -14,6 +14,15 @@
               {% endfor %}
           </datalist>
       </form>
+
+      <form role="search" action={% url 'admin_item_search2' %} method='get' class="search-bar">
+        <input type="search" list = "itemnames" id="hot_name" name='q' value="{{search_name}}" placeholder="Search By Item Price" class = "form-control">
+        <datalist id = "itemnames">
+            {% for item in itemnames %}
+                <option value = "{{item.name}}"></option>
+            {% endfor %}
+        </datalist>
+    </form>
   </div>
 <div class = "col-md-4"></div>
 </div>
